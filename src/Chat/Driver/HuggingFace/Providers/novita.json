@@ -1,0 +1,651 @@
+{
+	"name": "novita",
+	"models": [
+		{
+			"name": "alpindale/WizardLM-2-8x22B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 621,
+				"numGeneratedTokens": 65,
+				"requestLatencyMs": 3026
+			},
+			"author": "alpindale",
+			"validatedAt": "2025-07-15T23:14:15.034Z"
+		},
+		{
+			"name": "baidu/ERNIE-4.5-0.3B-PT",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 498,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 5697
+			},
+			"author": "baidu",
+			"validatedAt": "2025-07-15T22:18:32.955Z"
+		},
+		{
+			"name": "baidu/ERNIE-4.5-21B-A3B-PT",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 695,
+				"numGeneratedTokens": 108,
+				"requestLatencyMs": 11304
+			},
+			"author": "baidu",
+			"validatedAt": "2025-07-15T18:24:02.969Z"
+		},
+		{
+			"name": "baidu/ERNIE-4.5-300B-A47B-Base-PT",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1094,
+				"numGeneratedTokens": 53,
+				"requestLatencyMs": 8989
+			},
+			"author": "baidu",
+			"validatedAt": "2025-07-15T19:56:12.134Z"
+		},
+		{
+			"name": "baidu/ERNIE-4.5-VL-28B-A3B-PT",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1065,
+				"numGeneratedTokens": 55,
+				"requestLatencyMs": 9982
+			},
+			"author": "baidu",
+			"validatedAt": "2025-07-15T21:30:03.204Z"
+		},
+		{
+			"name": "baidu/ERNIE-4.5-VL-424B-A47B-Base-PT",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 4644,
+				"numGeneratedTokens": 63,
+				"requestLatencyMs": 11919
+			},
+			"author": "baidu",
+			"validatedAt": "2025-07-15T20:28:03.192Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-Prover-V2-671B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 724,
+				"numGeneratedTokens": 110,
+				"requestLatencyMs": 2307
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T19:56:12.035Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 449,
+				"numGeneratedTokens": 402,
+				"requestLatencyMs": 17193
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:14:34.441Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-0528",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 675,
+				"numGeneratedTokens": 197,
+				"requestLatencyMs": 21611
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T18:00:04.555Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 553,
+				"numGeneratedTokens": 135,
+				"requestLatencyMs": 3205
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T20:14:30.840Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1624,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 16853
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:42:12.835Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 851,
+				"numGeneratedTokens": 12,
+				"requestLatencyMs": 1622
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T20:14:30.543Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 715,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 5744
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T18:48:08.815Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 10709,
+				"firstTokenLatencyMs": 814,
+				"numGeneratedTokens": 200
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T21:24:03.603Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-V3",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1495,
+				"numGeneratedTokens": 64,
+				"requestLatencyMs": 5228
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:14:34.865Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-V3-0324",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1219,
+				"numGeneratedTokens": 57,
+				"requestLatencyMs": 4417
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T18:06:47.039Z"
+		},
+		{
+			"name": "dphn/dolphin-2.9.2-mixtral-8x22b",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 650,
+				"numGeneratedTokens": 39,
+				"requestLatencyMs": 3925
+			},
+			"author": "dphn",
+			"validatedAt": "2025-07-15T23:14:15.235Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.1-8B-Instruct",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 530,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 953
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T22:14:32.681Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.2-1B-Instruct",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 572,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 858
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T18:14:26.611Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.2-3B-Instruct",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 562,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 1371
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T22:14:34.366Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.3-70B-Instruct",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 649,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 10024
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T19:56:11.962Z"
+		},
+		{
+			"name": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1148,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 6344
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T18:12:03.004Z"
+		},
+		{
+			"name": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1002,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 1307
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T19:14:03.308Z"
+		},
+		{
+			"name": "meta-llama/Meta-Llama-3-70B-Instruct",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 738,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 3652
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T22:14:33.002Z"
+		},
+		{
+			"name": "meta-llama/Meta-Llama-3-8B-Instruct",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 725,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 1175
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T21:24:03.697Z"
+		},
+		{
+			"name": "MiniMaxAI/MiniMax-M1-80k",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 796,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 53029
+			},
+			"author": "MiniMaxAI",
+			"validatedAt": "2025-07-15T18:12:03.042Z"
+		},
+		{
+			"name": "mistralai/Mistral-7B-Instruct-v0.3",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 556,
+				"numGeneratedTokens": 16,
+				"requestLatencyMs": 879
+			},
+			"author": "mistralai",
+			"validatedAt": "2025-07-15T23:08:08.227Z"
+		},
+		{
+			"name": "moonshotai/Kimi-K2-Instruct",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 4798,
+				"firstTokenLatencyMs": 749,
+				"numGeneratedTokens": 8
+			},
+			"author": "moonshotai",
+			"validatedAt": "2025-07-15T18:14:26.612Z"
+		},
+		{
+			"name": "NousResearch/Hermes-2-Pro-Llama-3-8B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 521,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 1150
+			},
+			"author": "NousResearch",
+			"validatedAt": "2025-07-15T22:14:33.206Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-72B-Instruct",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 647,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 33686
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T17:50:21.456Z"
+		},
+		{
+			"name": "Qwen/Qwen3-235B-A22B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 735,
+				"numGeneratedTokens": 10,
+				"requestLatencyMs": 1171
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:36:16.207Z"
+		},
+		{
+			"name": "Qwen/Qwen3-30B-A3B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 556,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 2497
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T22:14:35.847Z"
+		},
+		{
+			"name": "Qwen/Qwen3-32B",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 591,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 5202
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:14:17.278Z"
+		},
+		{
+			"name": "Sao10K/L3-70B-Euryale-v2.1",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 654,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 934
+			},
+			"author": "Sao10K",
+			"validatedAt": "2025-07-15T22:14:33.497Z"
+		},
+		{
+			"name": "Sao10K/L3-8B-Lunaris-v1",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 597,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 1211
+			},
+			"author": "Sao10K",
+			"validatedAt": "2025-07-15T22:14:33.644Z"
+		},
+		{
+			"name": "Sao10K/L3-8B-Stheno-v3.2",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 504,
+				"numGeneratedTokens": 12,
+				"requestLatencyMs": 840
+			},
+			"author": "Sao10K",
+			"validatedAt": "2025-07-15T23:14:14.182Z"
+		},
+		{
+			"name": "THUDM/GLM-4-32B-0414",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 636,
+				"numGeneratedTokens": 9,
+				"requestLatencyMs": 4347
+			},
+			"author": "THUDM",
+			"validatedAt": "2025-07-15T22:14:35.747Z"
+		},
+		{
+			"name": "THUDM/GLM-4.1V-9B-Thinking",
+			"provider": "novita",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 1412,
+				"firstTokenLatencyMs": 550,
+				"numGeneratedTokens": 78
+			},
+			"author": "THUDM",
+			"validatedAt": "2025-07-15T23:14:17.703Z"
+		}
+	]
+}

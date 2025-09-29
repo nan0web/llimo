@@ -1,0 +1,512 @@
+{
+	"name": "nebius",
+	"models": [
+		{
+			"name": "aaditya/Llama3-OpenBioLLM-70B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 425,
+				"requestLatencyMs": 2208
+			},
+			"author": "aaditya",
+			"validatedAt": "2025-07-15T22:12:37.923Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct",
+			"provider": "nebius",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 214
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T23:26:02.887Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 548,
+				"requestLatencyMs": 3845
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:14:27.935Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-0528",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 443,
+				"requestLatencyMs": 12689
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:14:31.322Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 224,
+				"requestLatencyMs": 4356
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:14:28.637Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-V3",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 248,
+				"requestLatencyMs": 3381
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:12:34.998Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-V3-0324",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 341,
+				"requestLatencyMs": 2746
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:14:27.967Z"
+		},
+		{
+			"name": "google/gemma-2-2b-it",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 404,
+				"requestLatencyMs": 1128
+			},
+			"author": "google",
+			"validatedAt": "2025-07-15T22:14:31.450Z"
+		},
+		{
+			"name": "google/gemma-2-9b-it",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 619,
+				"requestLatencyMs": 2093
+			},
+			"author": "google",
+			"validatedAt": "2025-07-15T22:12:36.009Z"
+		},
+		{
+			"name": "google/gemma-3-27b-it",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 694,
+				"requestLatencyMs": 3402
+			},
+			"author": "google",
+			"validatedAt": "2025-07-15T23:10:03.053Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.1-405B-Instruct",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 469,
+				"requestLatencyMs": 2361
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T22:14:27.582Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.1-70B-Instruct",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 280,
+				"requestLatencyMs": 6426
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T20:08:03.296Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.1-8B-Instruct",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 193,
+				"requestLatencyMs": 1007
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T22:12:34.992Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.3-70B-Instruct",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 418,
+				"requestLatencyMs": 1351
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T22:12:35.142Z"
+		},
+		{
+			"name": "microsoft/phi-4",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 239,
+				"requestLatencyMs": 841
+			},
+			"author": "microsoft",
+			"validatedAt": "2025-07-15T22:12:38.112Z"
+		},
+		{
+			"name": "mistralai/Mistral-Nemo-Instruct-2407",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 805,
+				"requestLatencyMs": 4378
+			},
+			"author": "mistralai",
+			"validatedAt": "2025-07-15T22:14:31.790Z"
+		},
+		{
+			"name": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 195,
+				"requestLatencyMs": 1124
+			},
+			"author": "mistralai",
+			"validatedAt": "2025-07-15T22:14:28.840Z"
+		},
+		{
+			"name": "NousResearch/Hermes-3-Llama-3.1-405B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 315,
+				"requestLatencyMs": 4833
+			},
+			"author": "NousResearch",
+			"validatedAt": "2025-07-15T17:50:21.441Z"
+		},
+		{
+			"name": "nvidia/Llama-3_1-Nemotron-Ultra-253B-v1",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 302,
+				"requestLatencyMs": 8256
+			},
+			"author": "nvidia",
+			"validatedAt": "2025-07-15T18:08:10.996Z"
+		},
+		{
+			"name": "nvidia/Llama-3_3-Nemotron-Super-49B-v1",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 395,
+				"requestLatencyMs": 13604
+			},
+			"author": "nvidia",
+			"validatedAt": "2025-07-15T22:14:29.807Z"
+		},
+		{
+			"name": "Qwen/Qwen2-VL-72B-Instruct",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 273,
+				"requestLatencyMs": 2956
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T19:50:03.170Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-32B-Instruct",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 194,
+				"requestLatencyMs": 1411
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T22:12:36.502Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-72B-Instruct",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 208,
+				"requestLatencyMs": 1606
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:08:06.609Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-Coder-32B-Instruct",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1005,
+				"requestLatencyMs": 3465
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T22:12:35.790Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-Coder-7B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1122,
+				"requestLatencyMs": 3474
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:08:03.121Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-VL-72B-Instruct",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 321,
+				"requestLatencyMs": 1930
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T19:44:03.044Z"
+		},
+		{
+			"name": "Qwen/Qwen3-14B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 203,
+				"requestLatencyMs": 4534
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T21:46:04.528Z"
+		},
+		{
+			"name": "Qwen/Qwen3-235B-A22B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 418,
+				"requestLatencyMs": 7840
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:08:07.746Z"
+		},
+		{
+			"name": "Qwen/Qwen3-30B-A3B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 208,
+				"requestLatencyMs": 3241
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T22:14:29.955Z"
+		},
+		{
+			"name": "Qwen/Qwen3-32B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 218,
+				"requestLatencyMs": 8503
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T22:14:29.976Z"
+		},
+		{
+			"name": "Qwen/Qwen3-4B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 390,
+				"requestLatencyMs": 5114
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T22:14:30.724Z"
+		},
+		{
+			"name": "Qwen/QwQ-32B",
+			"provider": "nebius",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 202,
+				"requestLatencyMs": 2962
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T18:10:39.043Z"
+		}
+	]
+}

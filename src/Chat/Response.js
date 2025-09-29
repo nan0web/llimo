@@ -1,6 +1,6 @@
 import { NonEmptyObject, to } from "@nan0web/types"
 import ChatMessage from "./Message.js"
-import ChatModel from "./Model.js"
+import ChatModel from "./Model/Model.js"
 import ChatUsage from "./Usage.js"
 
 /**

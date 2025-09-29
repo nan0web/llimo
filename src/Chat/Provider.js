@@ -1,5 +1,5 @@
 import { empty } from "@nan0web/types"
-import ChatDriver from "./drivers/index.js"
+import ChatDriver from "./Driver/ChatDriver.js"
 import DB from "@nan0web/db"
 
 class ChatProvider {
@@ -75,7 +75,7 @@ class ChatProvider {
 		this.may_log_prompts = Boolean(may_log_prompts)
 		this.may_train_on_data = Boolean(may_train_on_data)
 		this.moderated_by_openrouter = Boolean(moderated_by_openrouter)
-		this.driver = driver
+		this.driver = ChatDriver.from(driver)
 		this.auth = auth
 		this.db = db
 		this.options = options

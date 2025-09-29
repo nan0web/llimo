@@ -53,4 +53,3 @@ export default class MDRelease extends MDHeading1 {
 		})
 	}
 }
-

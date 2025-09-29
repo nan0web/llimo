@@ -1,0 +1,175 @@
+{
+	"name": "cohere",
+	"models": [
+		{
+			"name": "CohereLabs/aya-expanse-32b",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 433,
+				"numGeneratedTokens": 46,
+				"requestLatencyMs": 1233
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T19:18:03.549Z"
+		},
+		{
+			"name": "CohereLabs/aya-expanse-8b",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 430,
+				"numGeneratedTokens": 51,
+				"requestLatencyMs": 1127
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T19:18:03.547Z"
+		},
+		{
+			"name": "CohereLabs/aya-vision-32b",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 456,
+				"numGeneratedTokens": 87,
+				"requestLatencyMs": 2218
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T19:18:03.551Z"
+		},
+		{
+			"name": "CohereLabs/aya-vision-8b",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 4698,
+				"numGeneratedTokens": 72,
+				"requestLatencyMs": 9206
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T22:54:02.823Z"
+		},
+		{
+			"name": "CohereLabs/c4ai-command-a-03-2025",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 451,
+				"numGeneratedTokens": 62,
+				"requestLatencyMs": 1661
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T22:28:03.136Z"
+		},
+		{
+			"name": "CohereLabs/c4ai-command-r-08-2024",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 271,
+				"numGeneratedTokens": 7,
+				"requestLatencyMs": 1814
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T20:30:02.870Z"
+		},
+		{
+			"name": "CohereLabs/c4ai-command-r-plus",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 357,
+				"numGeneratedTokens": 7,
+				"requestLatencyMs": 1986
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T20:30:02.868Z"
+		},
+		{
+			"name": "CohereLabs/c4ai-command-r-v01",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 259,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 2586
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T19:18:03.546Z"
+		},
+		{
+			"name": "CohereLabs/c4ai-command-r7b-12-2024",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 278,
+				"numGeneratedTokens": 7,
+				"requestLatencyMs": 1263
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T23:36:03.096Z"
+		},
+		{
+			"name": "CohereLabs/c4ai-command-r7b-arabic-02-2025",
+			"provider": "cohere",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1433,
+				"numGeneratedTokens": 44,
+				"requestLatencyMs": 2426
+			},
+			"author": "CohereLabs",
+			"validatedAt": "2025-07-15T19:18:03.554Z"
+		}
+	]
+}

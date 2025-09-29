@@ -25,7 +25,7 @@ export default class ReleaserChatContext extends ChatContext {
 
 	toJSON() {
 		return {
-			tasks: this.tasks.map(t => t.toJSON ? t.toJSON() : t ),
+			tasks: this.tasks.map(t => t.toJSON ? t.toJSON() : t),
 		}
 	}
 }

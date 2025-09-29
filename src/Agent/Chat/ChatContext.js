@@ -1,6 +1,6 @@
 import ChatAgent from "./ChatAgent.js"
 import ChatMessage from "../../Chat/Message.js"
-import ChatModel from "../../Chat/Model.js"
+import ChatModel from "../../Chat/Model/Model.js"
 import ChatProvider from "../../Chat/Provider.js"
 import ChatResponse from "../../Chat/Response.js"
 

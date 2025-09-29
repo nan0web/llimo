@@ -1,9 +1,9 @@
-import { MDHeading3 } from "@nan0web/markdown"
+import { MDHeading3 } from '@nan0web/markdown'
 
 export default class MDTask extends MDHeading3 {
 	id = ""
 	content = ""
-	
+
 	constructor(input) {
 		super(input)
 		const { id = this.id, content = this.content } = input
@@ -31,7 +31,7 @@ export default class MDTask extends MDHeading3 {
 	toString() {
 		return `### ${this.content}`
 	}
-	
+
 	toJSON() {
 		return {
 			id: this.id,

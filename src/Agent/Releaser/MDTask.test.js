@@ -29,4 +29,11 @@ describe('MDTask', () => {
 		const task = new MDTask({ content: 'Test Task' })
 		assert.strictEqual(String(task), '### Test Task')
 	})
+
+	it('should correctly serialize to JSON', () => {
+		const task = new MDTask({ content: 'Test Task', id: 'test-task' })
+		const json = task.toJSON()
+		assert.strictEqual(json.id, 'test-task')
+		assert.strictEqual(json.content, 'Test Task')
+	})
 })

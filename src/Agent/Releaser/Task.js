@@ -23,6 +23,10 @@ export default class ReleaserTask extends MDTask {
 		return /** @type {typeof ReleaserTask} */(this.constructor).STATUSES
 	}
 
+	get isDone() {
+		return this.status === this.STATUSES.done
+	}
+
 	/**
 	 * @param {any} input
 	 * @returns {ReleaserTask}
@@ -31,7 +35,7 @@ export default class ReleaserTask extends MDTask {
 		if (input instanceof ReleaserTask) return input
 		return new ReleaserTask(input)
 	}
-	
+
 	toJSON() {
 		return {
 			id: this.id,

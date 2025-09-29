@@ -24,7 +24,7 @@ describe('ReleaserAgent', () => {
 
 		// Mock FS to return me.md content
 		agent.fs = {
-			loadDocumentAs: async (type, file) => '# Release v1.2.3\n- Task 1\n- Task 2'
+			loadDocumentAs: async () => '# Release v1.2.3\n- Task 1\n- Task 2'
 		}
 
 		await agent.updateTasksFromResponse(stepResult, context)
@@ -42,7 +42,7 @@ describe('ReleaserAgent', () => {
 
 		// Mock FS to return me.md content
 		agent.fs = {
-			loadDocumentAs: async (type, file) => '# Release v1.2.3\n- Task 1\n- Task 2'
+			loadDocumentAs: async () => '# Release v1.2.3\n- Task 1\n- Task 2'
 		}
 
 		await agent.updateTasksFromResponse(stepResult, context)
@@ -60,7 +60,7 @@ describe('ReleaserAgent', () => {
 
 		// Mock FS to return me.md content
 		agent.fs = {
-			loadDocumentAs: async (type, file) => '# Release v1.2.3\n- Task 1\n- Task 2'
+			loadDocumentAs: async () => '# Release v1.2.3\n- Task 1\n- Task 2'
 		}
 
 		await agent.updateTasksFromResponse(stepResult, context)

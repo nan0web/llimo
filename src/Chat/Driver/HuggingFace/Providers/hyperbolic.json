@@ -1,0 +1,242 @@
+{
+	"name": "hyperbolic",
+	"models": [
+		{
+			"name": "deepseek-ai/DeepSeek-R1",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 2236,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 14466
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:12:34.108Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-0528",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1151,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 16044
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T18:12:03.002Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-V3-0324",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1105,
+				"numGeneratedTokens": 63,
+				"requestLatencyMs": 6787
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T20:06:14.500Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.2-3B-Instruct",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 996,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 2614
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T19:06:03.278Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.3-70B-Instruct",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1540,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 7300
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:04:21.574Z"
+		},
+		{
+			"name": "meta-llama/Meta-Llama-3-70B-Instruct",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 986,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 5940
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:08:02.948Z"
+		},
+		{
+			"name": "NousResearch/Hermes-3-Llama-3.1-70B",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 473,
+				"numGeneratedTokens": 120,
+				"requestLatencyMs": 8462
+			},
+			"author": "NousResearch",
+			"validatedAt": "2025-07-15T22:14:24.210Z"
+		},
+		{
+			"name": "Qwen/Qwen2-VL-72B-Instruct",
+			"provider": "hyperbolic",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 394
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:24:31.664Z"
+		},
+		{
+			"name": "Qwen/Qwen2-VL-7B-Instruct",
+			"provider": "hyperbolic",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 643
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:26:02.879Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-72B-Instruct",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 3171,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 5666
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T18:00:04.552Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-Coder-32B-Instruct",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 1335,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 3987
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T19:32:05.090Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-VL-72B-Instruct",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 451,
+				"numGeneratedTokens": 9,
+				"requestLatencyMs": 7149
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T18:48:08.718Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-VL-7B-Instruct",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 438,
+				"numGeneratedTokens": 9,
+				"requestLatencyMs": 7678
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T21:24:03.566Z"
+		},
+		{
+			"name": "Qwen/QwQ-32B",
+			"provider": "hyperbolic",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 10897,
+				"firstTokenLatencyMs": 1093,
+				"numGeneratedTokens": 200
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T19:04:18.960Z"
+		},
+		{
+			"name": "Qwen/QwQ-32B-Preview",
+			"provider": "hyperbolic",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 443
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:24:31.452Z"
+		}
+	]
+}

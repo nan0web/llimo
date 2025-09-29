@@ -1,9 +1,8 @@
 import DB, { Data } from "@nan0web/db"
 import { oneOf } from "@nan0web/types"
 import ChatProvider from "./Chat/Provider.js"
-import ChatModel from "./Chat/Model.js"
+import ChatModel from "./Chat/Model/Model.js"
 import ChatMessage from "./Chat/Message.js"
-import CoderOutputContext from "./agents/Coder/OutputContext.js"
 import { View } from "@nan0web/ui"
 import event from "@nan0web/event"
 

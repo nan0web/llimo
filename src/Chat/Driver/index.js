@@ -1,31 +1,23 @@
 import ChatDriver from "./ChatDriver.js"
-import OpenRouterDriver from "./OpenRouter.js"
+import CerebrasDriver from "./Cerebras/index.js"
+import HuggingFaceDriver from "./HuggingFace/HuggingFaceDriver.js"
+import OpenAIDriver from "./OpenAI/OpenAIDriver.js"
+import OpenRouterDriver from "./OpenRouter/OpenRouterDriver.js"
+import DriverOptions from "./Options.js"
 
-class ChatDrivers {
-	static Base = ChatDriver
-	static Chat = ChatDriver
-	static OpenRouter = OpenRouterDriver
-
-	/**
-	 * Returns the requested chat driver instance created with the provided options.
-	 * @param {string} name
-	 * @param {import("openai").ClientOptions} options
-	 * @returns {ChatDriver}
-	 */
-	static create(name, options = {}) {
-		/** @type {typeof ChatDriver} */
-		const Driver = this[name]
-		if (!Driver) {
-			throw new Error(["Driver with provided name not found", name].join(": "))
-		}
-		const driver = new Driver(options)
-		return driver
-	}
+/**
+ * Main chat drivers collection
+ */
+ChatDriver.DRIVERS = {
+	CerebrasDriver,
+	HuggingFaceDriver,
+	OpenAIDriver,
+	OpenRouterDriver,
 }
 
 export {
 	ChatDriver,
-	OpenRouterDriver,
+	DriverOptions,
 }
 
-export default ChatDrivers
+export default ChatDriver

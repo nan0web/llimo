@@ -1,0 +1,181 @@
+{
+	"name": "groq",
+	"models": [
+		{
+			"name": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 1066,
+				"firstTokenLatencyMs": 185
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T22:28:03.145Z"
+		},
+		{
+			"name": "google/gemma-2-9b-it",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 915,
+				"firstTokenLatencyMs": 424
+			},
+			"author": "google",
+			"validatedAt": "2025-07-15T18:32:03.583Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.3-70B-Instruct",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 606,
+				"firstTokenLatencyMs": 187
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T21:24:03.527Z"
+		},
+		{
+			"name": "meta-llama/Llama-4-Maverick-17B-128E-Instruct",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 585,
+				"firstTokenLatencyMs": 230
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T18:32:03.597Z"
+		},
+		{
+			"name": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 1329,
+				"firstTokenLatencyMs": 779
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T20:30:02.875Z"
+		},
+		{
+			"name": "meta-llama/Llama-Guard-4-12B",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 304,
+				"requestLatencyMs": 563
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:20:03.569Z"
+		},
+		{
+			"name": "meta-llama/Meta-Llama-3-70B-Instruct",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 1248,
+				"firstTokenLatencyMs": 475
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T18:32:03.591Z"
+		},
+		{
+			"name": "meta-llama/Meta-Llama-3-8B-Instruct",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"requestLatencyMs": 933,
+				"firstTokenLatencyMs": 373
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T18:32:03.595Z"
+		},
+		{
+			"name": "moonshotai/Kimi-K2-Instruct",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 281,
+				"requestLatencyMs": 776
+			},
+			"author": "moonshotai",
+			"validatedAt": "2025-07-15T21:08:02.866Z"
+		},
+		{
+			"name": "Qwen/Qwen3-32B",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 225,
+				"requestLatencyMs": 1276
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:20:03.563Z"
+		},
+		{
+			"name": "Qwen/QwQ-32B",
+			"provider": "groq",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 198,
+				"firstTokenLatencyMs": 327
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T22:52:02.927Z"
+		}
+	]
+}

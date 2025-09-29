@@ -9,7 +9,7 @@
 	},
 	"scripts": {
 		"build": "tsc",
-		"test": "node --test"
+		"test": "node --test \"src/**/*.test.js\""
 	},
 	"keywords": [],
 	"author": "",
@@ -27,6 +27,7 @@
 		"@nan0web/ui": "workspace:*"
 	},
 	"dependencies": {
+		"@cerebras/cerebras_cloud_sdk": "^1.50.0",
 		"@huggingface/inference": "^4.9.0",
 		"@huggingface/transformers": "^3.7.3",
 		"gpt-tokenizer": "^3.0.1",

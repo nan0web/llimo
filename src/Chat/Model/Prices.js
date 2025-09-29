@@ -19,10 +19,6 @@ class ModelPrices extends ObjectWithAlias {
 	speed
 	/** @type {string} */
 	currency
-	/**
-	 * @param {string} uri
-	 * @param {object} props
-	 */
 	constructor(props = {}) {
 		super(props)
 		const {
@@ -50,9 +46,14 @@ class ModelPrices extends ObjectWithAlias {
 		}
 		return `(${format(this.input)} ${format(this.output)} 1MT)`
 	}
+	/**
+	 *
+	 * @param {any} props
+	 * @returns {ModelPrices}
+	 */
 	static from(props = {}) {
 		if (props instanceof ModelPrices) return props
-		return super.from(props)
+		return new ModelPrices(super.from(props))
 	}
 }
 

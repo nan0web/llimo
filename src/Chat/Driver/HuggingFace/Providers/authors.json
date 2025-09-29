@@ -1,0 +1,241 @@
+{
+	"moonshotai": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/641c1e77c3983aa9490f8121/X1yT2rsaIbR9cdYGEVu0X.jpeg",
+		"fullname": "Moonshot AI",
+		"name": "moonshotai",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 1759
+	},
+	"HuggingFaceTB": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/651e96991b97c9f33d26bde6/e4VK7uW5sTeCYupD0s_ob.png",
+		"fullname": "Hugging Face Smol Models Research",
+		"name": "HuggingFaceTB",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 2165
+	},
+	"THUDM": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1656000281669-60f1abe7544c2adfd699860c.png",
+		"fullname": "Z.ai &amp; THUKEG",
+		"name": "THUDM",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 2663
+	},
+	"deepseek-ai": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6538815d1bdb3c40db94fbfa/xMBly9PUMphrFVMxLX4kq.png",
+		"fullname": "DeepSeek",
+		"name": "deepseek-ai",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": false,
+		"followerCount": 82094
+	},
+	"meta-llama": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/646cf8084eefb026fb8fd8bc/oCTqufkdTkjyGodsx1vo1.png",
+		"fullname": "Meta Llama",
+		"name": "meta-llama",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 52611
+	},
+	"mistralai": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/634c17653d11eaedd88b314d/9OgyfKstSZtbmsmuG8MbU.png",
+		"fullname": "Mistral AI_",
+		"name": "mistralai",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 10478
+	},
+	"MiniMaxAI": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/676e38ad04af5bec20bc9faf/dUd-LsZEX0H_d4qefO_g6.jpeg",
+		"fullname": "MiniMax",
+		"name": "MiniMaxAI",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 1549
+	},
+	"Qwen": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/620760a26e3b7210c2ff1943/-s1gyJfvbE1RgO5iBeNOi.png",
+		"fullname": "Qwen",
+		"name": "Qwen",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 38462
+	},
+	"google": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png",
+		"fullname": "Google",
+		"name": "google",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 20313
+	},
+	"microsoft": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1583646260758-5e64858c87403103f9f1055d.png",
+		"fullname": "Microsoft",
+		"name": "microsoft",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": false,
+		"followerCount": 13585
+	},
+	"baidu": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64f187a2cc1c03340ac30498/cwkjkFXCf6JWMWKgOlQEy.jpeg",
+		"fullname": "BAIDU",
+		"name": "baidu",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 878
+	},
+	"CohereLabs": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1678549441248-5e70f6048ce3c604d78fe133.png",
+		"fullname": "Cohere Labs",
+		"name": "CohereLabs",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 1636
+	},
+	"nvidia": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1613114437487-60262a8e0703121c822a80b6.png",
+		"fullname": "NVIDIA",
+		"name": "nvidia",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 31775
+	},
+	"aaditya": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5f3fe13d79c1ba4c353d0c19/XswyGe3OtOdZ6g7rnrgfc.png",
+		"fullname": "Ankit Pal",
+		"name": "aaditya",
+		"type": "user",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"followerCount": 293
+	},
+	"Sao10K": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64be6a5376a6e2efccc638c1/gvRRLHsicTCxpURJeQDv3.jpeg",
+		"fullname": "Sao",
+		"name": "Sao10K",
+		"type": "user",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"followerCount": 1464
+	},
+	"marin-community": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/624c7608d84cc6ac390b7a8d/qnw9Ql8IlAa7KvXuQktrz.jpeg",
+		"fullname": "The Marin Project",
+		"name": "marin-community",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": false,
+		"followerCount": 46
+	},
+	"NousResearch": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6317aade83d8d2fd903192d9/tPLjYEeP6q1w0j_G2TJG_.png",
+		"fullname": "NousResearch",
+		"name": "NousResearch",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 2096
+	},
+	"SentientAGI": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6758836a66a376beeacb409e/kgRUWwStDHRwpHe8Yliku.png",
+		"fullname": "Sentient Foundation",
+		"name": "SentientAGI",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": true,
+		"followerCount": 163
+	},
+	"dphn": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/68485b28c949339ca04c370c/U8ZDn5JZDJ0wr2nCCWUKZ.png",
+		"fullname": "Dolphin",
+		"name": "dphn",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": false,
+		"followerCount": 34
+	},
+	"alpindale": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/635567189c72a7e742f1419c/tbfBz0furS-y4ISgoe6j0.jpeg",
+		"fullname": "Alpin",
+		"name": "alpindale",
+		"type": "user",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"followerCount": 597
+	},
+	"scb10x": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62d192c2d50433c35eb1b48e/ZFdzBDv_5Lvx1D0QOpG8i.png",
+		"fullname": "SCB 10X",
+		"name": "scb10x",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": false,
+		"followerCount": 206
+	},
+	"tokyotech-llm": {
+		"avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6308c49c454dc257521bc7f9/fQaar5JAw6UMH9pnYOcLE.png",
+		"fullname": "tokyotech-llm",
+		"name": "tokyotech-llm",
+		"type": "org",
+		"isHf": false,
+		"isHfAdmin": false,
+		"isMod": false,
+		"isEnterprise": false,
+		"followerCount": 162
+	}
+}

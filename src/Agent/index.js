@@ -1,5 +1,9 @@
-import
+import Agent from "./Chat/ChatAgent.js"
+import Releaser from "./Releaser/ReleaserAgent.js"
 
-export default function createAgent(id) {
-
+export {
+	Agent,
+	Releaser,
 }
+
+export default Agent

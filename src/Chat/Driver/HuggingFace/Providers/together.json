@@ -1,0 +1,439 @@
+{
+	"name": "together",
+	"models": [
+		{
+			"name": "deepseek-ai/DeepSeek-R1",
+			"provider": "together",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 909,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 26653
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T23:46:02.774Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-R1-0528",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 763,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 32871
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T18:52:03.162Z"
+		},
+		{
+			"name": "deepseek-ai/DeepSeek-V3",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 841,
+				"numGeneratedTokens": 57,
+				"requestLatencyMs": 11321
+			},
+			"author": "deepseek-ai",
+			"validatedAt": "2025-07-15T19:56:16.795Z"
+		},
+		{
+			"name": "google/gemma-2b-it",
+			"provider": "together",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 316,
+				"numGeneratedTokens": 14,
+				"requestLatencyMs": 2043
+			},
+			"author": "google",
+			"validatedAt": "2025-07-15T23:08:12.306Z"
+		},
+		{
+			"name": "marin-community/marin-8b-instruct",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 266,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 1150
+			},
+			"author": "marin-community",
+			"validatedAt": "2025-07-15T22:14:40.107Z"
+		},
+		{
+			"name": "meta-llama/Llama-2-13b-chat-hf",
+			"provider": "together",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 268
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:02:10.776Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.2-11B-Vision-Instruct",
+			"provider": "together",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 274
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:02:12.264Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.2-3B-Instruct",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 543,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 3608
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T18:14:27.034Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.2-90B-Vision-Instruct",
+			"provider": "together",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 258
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:02:12.233Z"
+		},
+		{
+			"name": "meta-llama/Llama-3.3-70B-Instruct",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 344,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 1234
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:14:18.072Z"
+		},
+		{
+			"name": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+			"provider": "together",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 264,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 1322
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:14:18.327Z"
+		},
+		{
+			"name": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 127,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 983
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:08:13.051Z"
+		},
+		{
+			"name": "meta-llama/Meta-Llama-3-70B-Instruct",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 404,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 4818
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T19:44:03.048Z"
+		},
+		{
+			"name": "meta-llama/Meta-Llama-3-8B-Instruct",
+			"provider": "together",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 232
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T23:02:11.083Z"
+		},
+		{
+			"name": "mistralai/Mistral-7B-Instruct-v0.3",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 169,
+				"numGeneratedTokens": 68,
+				"requestLatencyMs": 1301
+			},
+			"author": "mistralai",
+			"validatedAt": "2025-07-15T22:14:38.488Z"
+		},
+		{
+			"name": "mistralai/Mistral-Small-24B-Instruct-2501",
+			"provider": "together",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 205,
+				"numGeneratedTokens": 61,
+				"requestLatencyMs": 14730
+			},
+			"author": "mistralai",
+			"validatedAt": "2025-07-15T22:14:40.104Z"
+		},
+		{
+			"name": "mistralai/Mixtral-8x22B-Instruct-v0.1",
+			"provider": "together",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 440
+			},
+			"author": "mistralai",
+			"validatedAt": "2025-07-15T23:02:10.947Z"
+		},
+		{
+			"name": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 203,
+				"numGeneratedTokens": 113,
+				"requestLatencyMs": 3404
+			},
+			"author": "mistralai",
+			"validatedAt": "2025-07-15T20:30:02.938Z"
+		},
+		{
+			"name": "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
+			"provider": "together",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 229,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 7575
+			},
+			"author": "NousResearch",
+			"validatedAt": "2025-07-15T20:08:09.763Z"
+		},
+		{
+			"name": "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
+			"provider": "together",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 238,
+				"numGeneratedTokens": 10,
+				"requestLatencyMs": 4376
+			},
+			"author": "nvidia",
+			"validatedAt": "2025-07-15T20:14:32.175Z"
+		},
+		{
+			"name": "Qwen/Qwen2-72B-Instruct",
+			"provider": "together",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 234,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 4317
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T22:14:39.004Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-72B-Instruct",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 325,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 5991
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T17:50:26.287Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-7B-Instruct",
+			"provider": "together",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 275,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 3192
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T22:14:39.800Z"
+		},
+		{
+			"name": "Qwen/Qwen2.5-Coder-32B-Instruct",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 170,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 2057
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T21:16:40.937Z"
+		},
+		{
+			"name": "Qwen/Qwen3-235B-A22B-FP8",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 408,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 10839
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T23:14:18.650Z"
+		},
+		{
+			"name": "Qwen/QwQ-32B-Preview",
+			"provider": "together",
+			"features": {
+				"structuredOutput": true,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 628,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 8137
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T19:04:19.574Z"
+		},
+		{
+			"name": "scb10x/llama-3-typhoon-v1.5-8b-instruct",
+			"provider": "together",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 445
+			},
+			"author": "scb10x",
+			"validatedAt": "2025-07-15T23:02:11.358Z"
+		},
+		{
+			"name": "scb10x/llama-3-typhoon-v1.5x-70b-instruct-awq",
+			"provider": "together",
+			"currency": "USD",
+			"status": "error",
+			"performance": {
+				"requestLatencyMs": 234
+			},
+			"author": "scb10x",
+			"validatedAt": "2025-07-15T23:02:11.426Z"
+		}
+	]
+}

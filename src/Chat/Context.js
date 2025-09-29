@@ -1,6 +1,6 @@
 import ChatAgent from "../Agent/Chat/ChatAgent.js"
 import ChatMessage from "./Message.js"
-import ChatModel from "./Model.js"
+import ChatModel from "./Model/Model.js"
 import ChatProvider from "./Provider.js"
 import ChatResponse from "./Response.js"
 
@@ -12,11 +12,15 @@ export default class ChatContext {
 	/** @type {ChatProvider} */
 	provider = new ChatProvider()
 	/** @type {ChatAgent} */
-	agent = new ChatAgent()
+	agent
+	/** @type {ChatMessage} */
+	prompt = new ChatMessage()
 	/** @type {ChatMessage} */
 	chat = new ChatMessage()
 	/** @type {ChatResponse} */
 	prevResponse = new ChatResponse("")
+	/** @type {string} */
+	input = ""
 	/** @type {string} */
 	inputFile = "me.md"
 	/** @type {string} */
@@ -31,41 +35,47 @@ export default class ChatContext {
 	#cancelled = false
 
 	/**
-	 * @param {Object} input
-	 * @param {string} [input.cwd]
-	 * @param {ChatModel} [input.model]
-	 * @param {ChatProvider} [input.provider]
-	 * @param {ChatAgent} [input.agent]
-	 * @param {ChatMessage} [input.chat]
-	 * @param {ChatResponse} [input.prevResponse]
-	 * @param {string} [input.inputFile]
-	 * @param {string} [input.chatFile]
-	 * @param {string} [input.promptFile]
-	 * @param {string} [input.responseFile]
-	 * @param {string} [input.streamFile]
-	 * @param {boolean} [input.cancelled]
+	 * @param {Object} props
+	 * @param {string} [props.cwd]
+	 * @param {ChatModel} [props.model]
+	 * @param {ChatProvider} [props.provider]
+	 * @param {ChatAgent} props.agent
+	 * @param {ChatMessage} [props.prompt]
+	 * @param {ChatMessage} [props.chat]
+	 * @param {ChatResponse} [props.prevResponse]
+	 * @param {string} [props.input]
+	 * @param {string} [props.inputFile]
+	 * @param {string} [props.chatFile]
+	 * @param {string} [props.promptFile]
+	 * @param {string} [props.responseFile]
+	 * @param {string} [props.streamFile]
+	 * @param {boolean} [props.cancelled]
 	 */
-	constructor(input = {}) {
+	constructor(props) {
 		const {
 			cwd = ".",
 			model = this.model,
 			provider = this.provider,
-			agent = this.agent,
+			agent,
 			chat = this.chat,
+			prompt = this.prompt,
 			prevResponse = this.prevResponse,
+			input = this.input,
 			inputFile = this.inputFile,
 			chatFile = this.chatFile,
 			promptFile = this.promptFile,
 			responseFile = this.responseFile,
 			streamFile = this.streamFile,
 			cancelled = false,
-		} = input
+		} = props
 		this.cwd = String(cwd)
 		this.model = ChatModel.from(model)
 		this.provider = ChatProvider.from(provider)
 		this.agent = ChatAgent.from(agent)
 		this.chat = ChatMessage.from(chat)
+		this.prompt = ChatMessage.from(prompt)
 		this.prevResponse = ChatResponse.from(prevResponse)
+		this.input = String(input)
 		this.inputFile = String(inputFile)
 		this.chatFile = String(chatFile)
 		this.promptFile = String(promptFile)

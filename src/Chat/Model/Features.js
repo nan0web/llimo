@@ -1,4 +1,4 @@
-class ModelFeatures {
+export default class ModelFeatures {
 	/** @type {boolean} */
 	chatCompletions
 	/** @type {boolean} */
@@ -23,5 +23,3 @@ class ModelFeatures {
 		return new this(props)
 	}
 }
-
-export default ModelFeatures

@@ -1,0 +1,56 @@
+{
+	"name": "cerebras",
+	"models": [
+		{
+			"name": "meta-llama/Llama-3.3-70B-Instruct",
+			"provider": "cerebras",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 280,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 731
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T20:30:02.862Z"
+		},
+		{
+			"name": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+			"provider": "cerebras",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": true
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 323,
+				"numGeneratedTokens": 8,
+				"requestLatencyMs": 1297
+			},
+			"author": "meta-llama",
+			"validatedAt": "2025-07-15T19:00:03.408Z"
+		},
+		{
+			"name": "Qwen/Qwen3-32B",
+			"provider": "cerebras",
+			"features": {
+				"structuredOutput": false,
+				"toolCalling": false
+			},
+			"currency": "USD",
+			"status": "live",
+			"performance": {
+				"firstTokenLatencyMs": 261,
+				"numGeneratedTokens": 200,
+				"requestLatencyMs": 896
+			},
+			"author": "Qwen",
+			"validatedAt": "2025-07-15T19:18:03.539Z"
+		}
+	]
+}

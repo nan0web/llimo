@@ -1,3 +1,4 @@
+import micromatch from "micromatch"
 import { empty } from "@nan0web/types"
 import DB from "@nan0web/db"
 import event from "@nan0web/event"
@@ -37,7 +38,17 @@ export default class ChatAgent {
 	/** @type {DB} */
 	fs
 
-	constructor(props = {}) {
+	/**
+	 * @param {Object} props
+	 * @param {string[]} [props.inputPipeline=["mightBeIncludes"]]
+	 * @param {string[]} [props.outputPipeline=[]]
+	 * @param {string} [props.name="Base Agent v1"]
+	 * @param {string} [props.desc="Base agent with optional loop; extend for multi-turn tasks"]
+	 * @param {App} props.app
+	 * @param {DB} props.db
+	 * @param {DB} props.fs
+	 */
+	constructor(props) {
 		this.bus = event()
 		const { inputPipeline, outputPipeline, name, desc, app = new App(), db, fs } = props
 		this.inputPipeline = inputPipeline || this.inputPipeline
@@ -289,7 +300,7 @@ export default class ChatAgent {
 	 */
 	async createChat() {
 		await this.requireFS()
-		const content = await this.fs.loadDocumentAs(".txt", "system.md") || this.SYSTEM_MD
+		const content = await this.fs.loadDocumentAs(".txt", "system.md", this.SYSTEM_MD)
 		return new ChatMessage({ role: ChatMessage.ROLES.system, content })
 	}
 
@@ -297,7 +308,7 @@ export default class ChatAgent {
 	 * @param {ChatContext} context
 	 * @returns
 	 */
-	async mightBeIncludes(context = new ChatContext()) {
+	async mightBeIncludes(context) {
 		const inject = ({ content, uri, child, placeholder = "" }) => {
 			if (undefined === content) {
 				return child.mdTag + String(placeholder)
@@ -360,10 +371,8 @@ export default class ChatAgent {
 						for (const uri of filtered) {
 							const stat = await this.fs.statDocument(uri)
 							if (stat.isDirectory) continue
-							const content = await this.fs.loadDocumentAs(".txt", uri)
+							const content = await this.fs.loadDocumentAs(".txt", uri, "")
 							const placeholder = `[${label}](${uri})`
-							const size = stat.size
-							context.promptContext.set(uri, { label, content, child, placeholder, size })
 							result.push(
 								inject({ content, uri, child, placeholder })
 							)
@@ -375,13 +384,11 @@ export default class ChatAgent {
 							const ext = this.fs.extname(uri)
 							const stat = await this.fs.statDocument(uri)
 							let content = ".json" === ext ? await this.fs.loadDocument(uri, {})
-								: await this.fs.loadDocumentAs(".txt", uri)
+								: await this.fs.loadDocumentAs(".txt", uri, "")
 							if (".json" === ext && !listOnly) {
 								content = JSON.stringify(content, null, 2)
 							}
 							const placeholder = child.content
-							const size = stat.size
-							context.promptContext.set(uri, { label, content, child, placeholder, size })
 							result.push(
 								inject({ content, uri, child, placeholder })
 							)
