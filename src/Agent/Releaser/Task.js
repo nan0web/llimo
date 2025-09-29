@@ -1,7 +1,6 @@
 import { Enum } from "@nan0web/types"
-import MDTask from "./MDTask.js"
 
-export default class ReleaserTask extends MDTask {
+export default class ReleaserTask {
 	static STATUSES = {
 		pending: "pending",
 		process: "process",
@@ -11,20 +10,14 @@ export default class ReleaserTask extends MDTask {
 	status = ReleaserTask.STATUSES.pending
 
 	constructor(input) {
-		super(input)
 		const {
+			id = "",
+			desc = "",
 			status = this.status,
 		} = input
-		this.status = Enum(...Object.values(this.STATUSES))(status)
-	}
-
-	/** @returns {Record<string, string>} */
-	get STATUSES() {
-		return /** @type {typeof ReleaserTask} */(this.constructor).STATUSES
-	}
-
-	get isDone() {
-		return this.status === this.STATUSES.done
+		this.id = String(id)
+		this.desc = String(desc)
+		this.status = Enum(...Object.values(this.constructor.STATUSES))(status)
 	}
 
 	/**
@@ -39,7 +32,7 @@ export default class ReleaserTask extends MDTask {
 	toJSON() {
 		return {
 			id: this.id,
-			content: this.content,
+			desc: this.desc,
 			status: this.status,
 		}
 	}

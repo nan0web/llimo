@@ -6,12 +6,12 @@ declare class ModelPrices extends ObjectWithAlias {
         db: string;
     };
     static SAVE_FIRST_PROP: string;
-    static from(props?: {}): ObjectWithAlias;
     /**
-     * @param {string} uri
-     * @param {object} props
+     *
+     * @param {any} props
+     * @returns {ModelPrices}
      */
-    constructor(props?: object);
+    static from(props?: any): ModelPrices;
     /** @type {number} */
     input: number;
     /** @type {number} */

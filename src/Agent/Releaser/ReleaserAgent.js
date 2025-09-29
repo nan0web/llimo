@@ -1,39 +1,14 @@
 import ChatAgent from "../Chat/ChatAgent.js"
 import ReleaserChatContext from "./ChatContext.js"
-import systemMd from "./system.md/index.js"
 import ReleaserTask from "./Task.js"
+import ChatMessage from "../../Chat/Message.js"
 
 export default class ReleaserAgent extends ChatAgent {
-	static SYSTEM_MD = systemMd
 	static desc = "Releaser agent for handling release tasks from me.md"
 
 	/**
 	 * @param {object} stepResult
 	 * @param {ReleaserChatContext} context
-	 * @returns {Promise<void>}
-	 */
-	async updateContextAfterStep(stepResult, context) {
-		if (!stepResult.error && stepResult.response) {
-			context.setResponse(stepResult.response)
-		}
-		// Example: subclass update (e.g., process tasks in Release)
-		await this.updateTasksFromResponse(stepResult, context)
-	}
-
-	/**
-	 * Determines if the loop should continue based on tasks status.
-	 * @param {object} context - Current context (history, tasks, cancel, loopCount)
-	 * @returns {boolean} True if tasks are empty (first run) or there are pending/processing tasks.
-	 */
-	shouldLoop(context) {
-		if (!context.tasks?.length) return true; // Allow first run to load tasks
-		return context.tasks.some(task => ["pending", "process"].includes(task.status))
-	}
-
-	/**
-	 * Updates tasks based on LLM response (e.g., parse completion status)
-	 * @param {object} stepResult - {response} from runSingleTurn
-	 * @param {ReleaserChatContext} context - Current context (mutable)
 	 * @returns {Promise<void>}
 	 */
 	async updateTasksFromResponse(stepResult, context) {
@@ -43,10 +18,15 @@ export default class ReleaserAgent extends ChatAgent {
 
 		// Load initial tasks from me.md if none set
 		if (!context.tasks?.length) {
+			await this.requireFS()
 			const meMd = await this.fs.loadDocumentAs(".txt", "me.md", "")
-			const releaseMatch = meMd.match(/^#\s*Release\s+(v[\d.]+)/im)
-			const id = releaseMatch ? `release-${releaseMatch[1]}` : "release"
-			context.tasks = [new ReleaserTask({ id, content: meMd, status: "pending" })]
+			// Split string into array if it's a string
+			const taskLines = Array.isArray(meMd) ? meMd : meMd.split('\n').filter(Boolean)
+			context.tasks = taskLines.map((line, index) => ReleaserTask.from({
+				id: `task-${index}`,
+				desc: line.trim(),
+				status: "pending"
+			}))
 		}
 
 		// Update based on response
@@ -55,5 +35,15 @@ export default class ReleaserAgent extends ChatAgent {
 		} else {
 			context.tasks = context.tasks.map(task => new ReleaserTask({ ...task, status: "process" }))
 		}
+	}
+
+	/**
+	 * Creates initial chat (system + configs).
+	 * @returns {Promise<ChatMessage>}
+	 */
+	async createChat() {
+		await this.requireFS()
+		const content = await this.fs.loadDocumentAs(".txt", "system.md", this.SYSTEM_MD)
+		return new ChatMessage({ role: ChatMessage.ROLES.system, content })
 	}
 }

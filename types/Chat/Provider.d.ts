@@ -57,5 +57,5 @@ declare class ChatProvider {
     toString(): string;
     init(): Promise<void>;
 }
-import ChatDriver from "./drivers/index.js";
+import ChatDriver from "./Driver/ChatDriver.js";
 import DB from "@nan0web/db";

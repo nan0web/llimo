@@ -1,5 +1,5 @@
 export default App;
-declare class App extends NanoEvent {
+declare class App {
     constructor(props?: {});
     /** @type {ChatProvider} */
     chatProvider: ChatProvider;
@@ -11,6 +11,7 @@ declare class App extends NanoEvent {
     db: DB;
     /** @type {View} */
     view: View;
+    bus: import("@nan0web/event/types").EventBus;
     /**
      * Resolves this.db as a document database.
      */
@@ -38,9 +39,8 @@ declare class App extends NanoEvent {
     loadConfig(uri?: any, configs?: Map<any, any>): Promise<{}>;
     loadConfigFile(uri: any): Promise<any>;
 }
-import NanoEvent from "@yaro.page/nano-events";
 import ChatProvider from "./Chat/Provider.js";
-import ChatModel from "./Chat/Model.js";
+import ChatModel from "./Chat/Model/Model.js";
 import ChatMessage from "./Chat/Message.js";
 import DB from "@nan0web/db";
-import CoderOutputContext from "./agents/Coder/OutputContext.js";
+import { View } from "@nan0web/ui";

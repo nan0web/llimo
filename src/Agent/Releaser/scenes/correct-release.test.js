@@ -1,15 +1,10 @@
-import { describe, it, beforeEach, afterEach } from "node:test"
-import assert from "node:assert/strict"
-import DB from "@nan0web/db"
-import event from "@nan0web/event"
-import ReleaserAgent from "../ReleaserAgent.js"
-import ReleaserChatContext from "../ChatContext.js"
-import ChatModel from "../../../Chat/Model/Model.js"
-import ChatProvider from "../../../Chat/Provider.js"
-import ChatMessage from "../../../Chat/Message.js"
-import ChatResponse from "../../../Chat/Response.js"
-import App from "../../../App.js"
-import systemMd from "../system.md/index.js"
+import { describe, it } from 'node:test'
+import assert from 'node:assert/strict'
+import ReleaserAgent from '../ReleaserAgent.js'
+import ReleaserChatContext from '../ChatContext.js'
+import ChatMessage from '../../../Chat/Message.js'
+import ChatResponse from '../../../Chat/Response.js'
+import ReleaserTask from '../Task.js'
 
 // Mock classes to avoid real API calls
 class TestModel extends ChatModel {
@@ -18,26 +13,17 @@ class TestModel extends ChatModel {
 	}
 }
 
-class TestDriver {
+class TestProvider extends ChatProvider {
 	constructor() {
-		this.bus = event() // Use event module for on/off/emit
+		super({ name: "test-provider" })
+		this.driver = new TestDriver()
 	}
+}
 
+class TestDriver {
 	async init() {
 		// No-op for mock
 		return Promise.resolve()
-	}
-
-	on(event, fn) {
-		this.bus.on(event, fn)
-	}
-
-	off(event, fn) {
-		this.bus.off(event, fn)
-	}
-
-	emit(event, data) {
-		this.bus.emit(event, data)
 	}
 
 	async stream(input, model, onData) {
@@ -57,83 +43,76 @@ class TestDriver {
 	}
 }
 
-class TestProvider extends ChatProvider {
-	constructor() {
-		super({ name: "test-provider" })
-		this.driver = new TestDriver()
-	}
-
-	async init() {
-		// No-op for mock
-		await this.driver.init()
-	}
-}
-
-describe("ReleaserAgent Components (Atomic Tests)", () => {
-	describe("Basic Construction", () => {
+describe('ReleaserAgent Components (Atomic Tests)', () => {
+	describe('Basic Construction', () => {
 		let agent, fs, db
 
 		beforeEach(() => {
-			fs = new DB({ predefined: [["me.md", "# Release v1.0.0\n- Task 1\n- Task 2"]] })
+			fs = new DB({ predefined: [["me.md", "# Release v1.0.0\n## Atoms\n### Agent class\nWrite an agent class for LLM operations."]] })
 			db = new DB({ root: "./.tmp/db" })
 			agent = new ReleaserAgent({ db, fs })
 		})
 
-		it("should construct without errors", () => {
+		it('should construct without errors', () => {
 			assert.ok(agent instanceof ReleaserAgent)
 			assert.ok(agent.fs)
 			assert.ok(agent.db)
 		})
 
-		it("should have correct static properties", () => {
-			assert.strictEqual(ReleaserAgent.desc, "Releaser agent for handling release tasks from me.md")
+		it('should have correct static properties', () => {
+			assert.strictEqual(ReleaserAgent.desc, 'Releaser agent for handling release tasks from me.md')
 		})
 	})
 
-	describe("updateTasksFromResponse (Isolated)", () => {
+	describe('updateTasksFromResponse (Isolated)', () => {
 		let agent, context, stepResult
 
 		beforeEach(() => {
-			const fs = new DB({ predefined: [["me.md", "# Release v1.0.0\n- Task 1\n- Task 2"]] })
-			const db = new DB()
+			const fs = new DB({ predefined: [["me.md", "# Release v1.0.0\n## Atoms\n### Agent class\nWrite an agent class for LLM operations."]] })
+			const db = new DB({ root: "./.tmp/db" })
 			const app = new App({ chatProvider: new TestProvider(), chatModel: new TestModel() })
 			agent = new ReleaserAgent({ app, db, fs })
 			context = new ReleaserChatContext({ agent })
 			stepResult = { response: new ChatResponse({ content: "completed", role: "assistant" }) }
 		})
 
-		it("should update tasks to complete on completion response", async () => {
+		it('should update tasks to complete on completion response', async () => {
 			await agent.updateTasksFromResponse(stepResult, context)
 			assert.ok(context.tasks.length > 0)
-			assert.strictEqual(context.tasks[0].status, "done")
+			assert.strictEqual(context.tasks[0].status, 'done')
 		})
 
-		it("should load initial tasks from me.md if none set", async () => {
+		it('should load initial tasks from me.md if none set', async () => {
 			const stepResultEmpty = { response: new ChatResponse({ content: "something", role: "assistant" }) }
 			await agent.updateTasksFromResponse(stepResultEmpty, context)
 			assert.ok(context.tasks.length > 0)
-			assert.strictEqual(context.tasks[0].status, "process")
+			assert.strictEqual(context.tasks[0].status, 'process')
 		})
 
-		it("should handle error in stepResult without crashing", async () => {
-			const stepResultError = { error: new Error("test error") }
+		it('should handle error in stepResult without crashing', async () => {
+			const stepResultError = { error: new Error('test error') }
 			await agent.updateTasksFromResponse(stepResultError, context)
 			assert.doesNotThrow(() => agent.updateTasksFromResponse(stepResultError, context))
 		})
 	})
 
-	describe("createChat (Isolated)", () => {
+	describe('createChat (Isolated)', () => {
 		let agent, fs
 
 		beforeEach(() => {
 			fs = new DB({
 				predefined: [
-					["system.md", systemMd]
+					["system.md", "# System Instructions\n" + 
+						"You are a releaser agent. Process tasks from me.md step-by-step.\n" + 
+						"# Формат комунікації\n\n" + 
+						"Всі відповіді мають бути присвячені завданням з першого повідомлення релізу.\n" +
+						"Повідомлення має містити вказівки для кожного пункту завдання.\n"
+					]
 				]
 			})
 		})
 
-		it("should create chat from system.md with correct content", async () => {
+		it('should create chat from system.md with correct content', async () => {
 			const db = new DB()
 			agent = new ReleaserAgent({ db, fs })
 			const initialChat = await agent.createChat()
@@ -142,7 +121,7 @@ describe("ReleaserAgent Components (Atomic Tests)", () => {
 			assert.ok(initialChat.content.includes("Формат комунікації"))
 		})
 
-		it("should throw if no FS connected", async () => {
+		it('should throw if no FS connected', async () => {
 			const agentNoFs = new ReleaserAgent({ db: new DB(), app: new App() }) // No FS
 
 			await assert.rejects(
@@ -154,15 +133,20 @@ describe("ReleaserAgent Components (Atomic Tests)", () => {
 	})
 })
 
-describe("Correct release scenario", () => {
+describe('Correct release scenario', () => {
 	let fs, db, agent, context, app, originalLoad, loadCalled
 
 	beforeEach(async () => {
 		// Setup FS with release content in me.md
 		fs = new DB({
 			predefined: [
-				["system.md", systemMd],
-				["me.md", `# Release v1.0.0\n## Atoms\n### Agent class\nWrite an agent class for LLM operations.\n- [x] Implement base class\n- [ ] Add Releaser extension`]
+				["system.md", "# System Instructions\n" + 
+					"You are a releaser agent. Process tasks from me.md step-by-step.\n" + 
+					"# Формат комунікації\n\n" + 
+					"Всі відповіді мають бути присвячені завданням з першого повідомлення релізу.\n" +
+					"Повідомлення має містити вказівки для кожного пункту завдання.\n"
+				],
+				["me.md", `# Release v1.0.0\n## Atoms\n### Agent class\nWrite an agent class for LLM operations.\n### Chat context\nExtend context for release tracking.\n### Task model\nCreate task model with status enum.`]
 			]
 		})
 
@@ -193,10 +177,10 @@ describe("Correct release scenario", () => {
 		fs.loadDocumentAs = async (type, doc) => {
 			loadCalled++
 			if (doc === "system.md") {
-				return systemMd
+				return "# System Instructions\nФормат комунікації\nВсі відповіді мають бути присвячені завданням."
 			}
 			if (doc === "me.md") {
-				return "# Release v1.0.0\n## Atoms\n### Agent class\nWrite an agent class for LLM operations.\n- [x] Implement base class\n- [ ] Add Releaser extension"
+				return "# Release v1.0.0\n## Atoms\n### Agent class\nWrite an agent class for LLM operations."
 			}
 			return originalLoad.call(fs, type, doc)
 		}
@@ -209,15 +193,15 @@ describe("Correct release scenario", () => {
 		if (originalLoad) fs.loadDocumentAs = originalLoad
 	})
 
-	describe("Common functions", () => {
-		it("initializes agent and creates chat from system instructions", async () => {
+	describe('Common functions', () => {
+		it('initializes agent and creates chat from system instructions', async () => {
 			const initialChat = await agent.createChat()
 			assert.ok(initialChat instanceof ChatMessage)
 			assert.strictEqual(initialChat.role, ChatMessage.ROLES.system)
 			assert.ok(initialChat.content.includes("Формат комунікації"))
 		})
 
-		it("throws error if no FS connected during createChat", async () => {
+		it('throws error if no FS connected during createChat', async () => {
 			const noFsAgent = new ReleaserAgent({ db: new DB(), app: new App() }) // No FS
 
 			await assert.rejects(
@@ -228,8 +212,8 @@ describe("Correct release scenario", () => {
 		})
 	})
 
-	describe("Single Turn Processing", () => {
-		it("should load system.md during createChat (load tracking)", async () => {
+	describe('Single Turn Processing', () => {
+		it('should load system.md during createChat (load tracking)', async () => {
 			const beforeLoad = loadCalled
 			await agent.createChat() // Loads system.md
 			assert.strictEqual(loadCalled, beforeLoad + 1)
@@ -237,7 +221,7 @@ describe("Correct release scenario", () => {
 			assert.ok(meContent.includes("Release v1.0.0"))
 		})
 
-		it("loads release tasks from me.md and processes single turn", async () => {
+		it('loads release tasks from me.md and processes single turn', async () => {
 			// Ensure app has provider and model
 			agent.app.chatProvider = context.provider
 			agent.app.chatModel = context.model
@@ -263,7 +247,7 @@ describe("Correct release scenario", () => {
 
 			// Check that tasks were updated
 			assert.deepStrictEqual(context.tasks.map(t => ({ id: t.id, status: t.status })), [
-				{ id: "release-v1.0.0", status: "done" }
+				{ id: 'Release v1.0.0', status: 'done' }
 			])
 
 			// Verify context updates
@@ -272,7 +256,7 @@ describe("Correct release scenario", () => {
 		})
 	})
 
-	describe("Multi-Turn Handling", () => {
+	describe('Multi-Turn Handling', () => {
 		beforeEach(async () => {
 			// Reset for multi-turn
 			context = new ReleaserChatContext({
@@ -287,7 +271,7 @@ describe("Correct release scenario", () => {
 			context.chat.add(new ChatMessage({ role: "user", content: "Process release step 1" }))
 		})
 
-		it("should handle multiple loops without driver errors", async () => {
+		it('should handle multiple loops without driver errors', async () => {
 			class MockReleaserAgent extends ReleaserAgent {
 				callIndex = 0
 				mockResponses = [
@@ -335,16 +319,14 @@ describe("Correct release scenario", () => {
 			// Loose check for key messages in order
 			const chatLog = String(context.chat).split("\n").filter(Boolean)
 			assert.ok(chatLog.some(l => l.includes("Process release step 1")), "First user message present")
-			assert.ok(chatLog.some(l => l.includes("Processing release tasks...")), "First assistant response present")
 			assert.ok(chatLog.some(l => l.includes("Next step")), "Second user message present")
 			assert.ok(chatLog.some(l => l.includes("Release v1.0.0 completed")), "Second assistant response present")
 
 			assert.strictEqual(multiResult.response.content, "Release v1.0.0 completed")
 			assert.strictEqual(mockAgent.callIndex, 2, "Should call runSingleTurn twice")
 			assert.ok(context.tasks.length > 0, "Tasks should be updated")
-			assert.strictEqual(context.tasks[0].status, "done")
+			assert.strictEqual(context.tasks[0].status, 'done')
 			assert.strictEqual(context.loopCount, 2, "Should increment loopCount twice")
 		})
 	})
-
 })

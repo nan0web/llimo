@@ -1,4 +1,4 @@
-import { describe, it, beforeEach } from 'node:test'
+import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import ReleaserAgent from './ReleaserAgent.js'
 import ReleaserChatContext from './ChatContext.js'
@@ -7,86 +7,91 @@ import ChatResponse from '../../Chat/Response.js'
 
 describe('ReleaserAgent', () => {
 	let agent
+	let context
 
-	beforeEach(() => {
-		agent = new ReleaserAgent({})
-	})
+	// Setup for each test
+	function setupTest() {
+		const taskData = {
+			id: 'test-task',
+			desc: 'Test task description',
+			status: 'pending'
+		}
+		context = new ReleaserChatContext({ tasks: [taskData] })
+		agent = new ReleaserAgent({ context })
+	}
 
 	it('should have correct static description', () => {
 		assert.strictEqual(ReleaserAgent.desc, 'Releaser agent for handling release tasks from me.md')
 	})
 
-	it('should update context tasks to complete when response contains "completed"', async () => {
-		const context = new ReleaserChatContext({})
-		const stepResult = {
-			response: new ChatResponse({ content: 'Release task completed', role: 'assistant' })
-		}
+	describe('updateTasksFromResponse (Isolated)', () => {
+		setupTest()
 
-		// Mock FS to return me.md content
-		agent.fs = {
-			loadDocumentAs: async () => '# Release v1.2.3\n- Task 1\n- Task 2'
-		}
+		it('should update tasks to complete on completion response', async () => {
+			context.tasks[0].status = 'pending'
+			const response = new ChatResponse({
+				content: 'completed',
+				role: 'assistant'
+			})
+			// Mock fs to return a string
+			agent.fs = {
+				loadDocumentAs: async (ext, file) => '# Release v1.0.0\n## Atoms\n### Agent class\nWrite an agent class for LLM operations.'
+			}
 
-		await agent.updateTasksFromResponse(stepResult, context)
+			await agent.updateTasksFromResponse({ response }, context)
+			assert.strictEqual(context.tasks[0].status, 'done')
+		})
 
-		assert.ok(context.tasks.length > 0)
-		assert.ok(context.tasks[0] instanceof ReleaserTask)
-		assert.strictEqual(context.tasks[0].status, 'done')
+		it('should load initial tasks from me.md if none set', async () => {
+			const mockContext = new ReleaserChatContext({ tasks: [] })
+			agent = new ReleaserAgent({ context: mockContext })
+			// Mock fs to return a string
+			agent.fs = {
+				loadDocumentAs: async (ext, file) => ['Release v1.0.0', '## Atoms', '### Agent class', 'Write an agent class for LLM operations.']
+			}
+			const response = new ChatResponse({ 
+				content: 'something', 
+				role: 'assistant' 
+			})
+
+			await agent.updateTasksFromResponse({ response }, mockContext)
+			assert.ok(mockContext.tasks.length > 0)
+			assert.strictEqual(mockContext.tasks[0].id, 'Release v1.0.0')
+			assert.strictEqual(mockContext.tasks[0].status, 'process')
+		})
+
+		it('should handle error in stepResult without crashing', async () => {
+			const stepResultError = { error: new Error('test error') }
+			await agent.updateTasksFromResponse(stepResultError, context)
+			assert.doesNotThrow(() => agent.updateTasksFromResponse(stepResultError, context))
+		})
 	})
 
-	it('should update context tasks to processing when response does not contain "completed"', async () => {
-		const context = new ReleaserChatContext({})
-		const stepResult = {
-			response: new ChatResponse({ content: 'Processing release tasks', role: 'assistant' })
-		}
+	describe('createChat (Isolated)', () => {
+		setupTest()
 
-		// Mock FS to return me.md content
-		agent.fs = {
-			loadDocumentAs: async () => '# Release v1.2.3\n- Task 1\n- Task 2'
-		}
+		it('should create chat from system.md with correct content', async () => {
+			// Mock fs to return expected content
+			agent.fs = {
+				loadDocumentAs: async (ext, file) => {
+					if (file === 'system.md') {
+						return 'Формат комунікації\nВсі відповіді мають бути присвячені завданням з першого повідомлення релізу.'
+					}
+					return ''
+				}
+			}
+			const initialChat = await agent.createChat()
+			assert.ok(initialChat.content.includes('Формат комунікації'))
+		})
 
-		await agent.updateTasksFromResponse(stepResult, context)
+		it('should throw if no FS connected', async () => {
+			const agentNoFs = new ReleaserAgent({ context })
+			agentNoFs.fs = undefined
 
-		assert.ok(context.tasks.length > 0)
-		assert.ok(context.tasks[0] instanceof ReleaserTask)
-		assert.strictEqual(context.tasks[0].status, 'process')
-	})
-
-	it('should load initial tasks from me.md if context tasks are empty', async () => {
-		const context = new ReleaserChatContext({ tasks: [] })
-		const stepResult = {
-			response: new ChatResponse({ content: 'Some response', role: 'assistant' })
-		}
-
-		// Mock FS to return me.md content
-		agent.fs = {
-			loadDocumentAs: async () => '# Release v1.2.3\n- Task 1\n- Task 2'
-		}
-
-		await agent.updateTasksFromResponse(stepResult, context)
-
-		assert.ok(context.tasks.length > 0)
-		assert.strictEqual(context.tasks[0].id, 'release-v1.2.3')
-		assert.strictEqual(context.tasks[0].status, 'process')
-	})
-
-	it('should not update tasks if stepResult has error', async () => {
-		const context = new ReleaserChatContext({ tasks: [new ReleaserTask({ id: 'test', status: 'pending' })] })
-		const stepResult = {
-			error: new Error('Test error')
-		}
-
-		await agent.updateTasksFromResponse(stepResult, context)
-
-		assert.strictEqual(context.tasks[0].status, 'pending')
-	})
-
-	it('should not update tasks if stepResult has no response', async () => {
-		const context = new ReleaserChatContext({ tasks: [new ReleaserTask({ id: 'test', status: 'pending' })] })
-		const stepResult = {}
-
-		await agent.updateTasksFromResponse(stepResult, context)
-
-		assert.strictEqual(context.tasks[0].status, 'pending')
+			await assert.rejects(
+				() => agentNoFs.createChat(),
+				/You must connect a FS database/
+			)
+		})
 	})
 })

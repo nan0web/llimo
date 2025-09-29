@@ -1,9 +1,14 @@
 export default ChatMessage;
 import ChatContext from "./Context.js";
 import ChatMessage from "./Message.js";
-import ChatModel from "./Model.js";
+import { ChatModel } from "./Model/index.js";
+import { ModelContext } from "./Model/index.js";
+import { ModelFeatures } from "./Model/index.js";
+import { ModelPrices } from "./Model/index.js";
 import ChatOptions from "./Options.js";
 import Response from "./Response.js";
 import Usage from "./Usage.js";
-import ChatDriver from "./drivers/index.js";
-export { ChatContext, ChatMessage, ChatModel, ChatOptions, Response, Usage, ChatDriver };
+import ChatDriver from "./Driver/index.js";
+import ChatProvider from "./Provider.js";
+import { DriverOptions } from "./Driver/index.js";
+export { ChatContext, ChatMessage, ChatModel, ModelContext, ModelFeatures, ModelPrices, ChatOptions, Response, Usage, ChatDriver, ChatProvider, DriverOptions };

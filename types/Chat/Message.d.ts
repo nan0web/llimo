@@ -1,10 +1,10 @@
 export default ChatMessage;
 /**
  * @todo convert to simple class (get rid of NanoElement)
- * @extends {Prompt}
+ * @extends {ContainerObject}
  * @property {string} username
  */
-declare class ChatMessage extends Prompt {
+declare class ChatMessage extends ContainerObject {
     static PROMPT_END_WORD: string;
     static ROLES: {
         user: string;
@@ -31,6 +31,15 @@ declare class ChatMessage extends Prompt {
      * @returns {ChatMessage}
      */
     static fromLog(log: string | object): ChatMessage;
+    constructor(props?: {});
+    /**
+     * @type {string}
+     */
+    role: string;
+    /**
+     * @type {string}
+     */
+    content: string;
     /**
      * @type {string}
      */
@@ -45,7 +54,7 @@ declare class ChatMessage extends Prompt {
     get empty(): boolean;
     get ended(): boolean;
     get messagesCount(): number;
-    get systemMessages(): ContainerObject[];
+    get systemMessages(): ChatMessage[];
     /**
      * Adds a nested message to the current instance.
      * @param {ChatMessage} message - The element to add (can be an object or string).
@@ -77,6 +86,10 @@ declare class ChatMessage extends Prompt {
      * @returns {boolean}
      */
     isRecent(recent: ChatMessage): boolean;
+    /**
+     * Flattens the tree into an array.
+     * @returns {ChatMessage[]}
+     */
+    flat(): ChatMessage[];
 }
-import Prompt from "./Prompt.js";
 import { ContainerObject } from "@nan0web/types";

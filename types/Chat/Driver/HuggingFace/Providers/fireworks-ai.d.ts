@@ -1,0 +1,31 @@
+declare namespace _default {
+    let name: string;
+    let url: string;
+    let models: ({
+        $default: {
+            provider: string;
+            cost: number;
+            options: {
+                temperature: number;
+                top_p: number;
+            };
+        };
+        name?: undefined;
+        maxTokens?: undefined;
+        costIn?: undefined;
+        costOut?: undefined;
+    } | {
+        name: string;
+        maxTokens: number;
+        $default?: undefined;
+        costIn?: undefined;
+        costOut?: undefined;
+    } | {
+        name: string;
+        costIn: number;
+        costOut: number;
+        maxTokens: number;
+        $default?: undefined;
+    })[];
+}
+export default _default;

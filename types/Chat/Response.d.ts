@@ -3,7 +3,6 @@ export default ChatResponse;
  * Represents a chat response with additional metadata
  */
 declare class ChatResponse extends ChatMessage {
-    static DEFAULTS: any;
     static ALIAS: {
         responseId: string;
         requestId: string;
@@ -16,17 +15,12 @@ declare class ChatResponse extends ChatMessage {
      * @returns {ChatResponse} Response instance
      */
     static from(input: object | string | ChatMessage, model?: ChatModel | undefined): ChatResponse;
-    /**
-     * @param {object} input
-     * @returns {ChatResponse}
-     */
-    static from(input?: object): ChatResponse;
     static fromLog(log: any): ChatResponse;
     /**
-     * @param {ChatResponse} input
+     * @param {Partial<ChatResponse>} input
      * @param {string | object} input
      */
-    constructor(input: ChatResponse);
+    constructor(input: Partial<ChatResponse>);
     /** @type {string} **/
     thought: string;
     /** @type {string} **/
@@ -50,4 +44,4 @@ declare class ChatResponse extends ChatMessage {
 }
 import ChatMessage from "./Message.js";
 import ChatUsage from "./Usage.js";
-import ChatModel from "./Model.js";
+import ChatModel from "./Model/Model.js";
