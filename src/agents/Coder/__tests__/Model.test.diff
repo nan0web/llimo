@@ -1,0 +1,105 @@
+diff --git a/lib/chat/Model.test.js b/lib/chat/Model.test.js
+index 330b5ab..aba1846 100644
+--- a/lib/chat/Model.test.js
++++ b/lib/chat/Model.test.js
+@@ -3,75 +3,56 @@ import Model from "./Model.js"
+ 
+ const config = {
+ 	"gpt-4.1": {
+-		cost: { i: 2.00, db: 0.50, o: 8.00, speed: 3 },
+-		// costIn: 2.00, costOut: 8.00, costCache: 0.50, speed: 3,
+-		input: ["text", "image"], output: ["text"],
++		// ... omitted code ...
+ 		context: { window: 1_047_576, output: 32_768, date: "2024-06-01", name: "gpt-4.1-2025-04-14" },
+ 	},
+ 	"gpt-4.1-mini": {
+-		cost: { i: 0.40, db: 0.10, o: 1.60, speed: 4 },
+-		// costIn: 0.40, costOut: 1.60, costCache: 0.10, speed: 4,
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 1_047_576, output: 32_768, date: "2024-06-01" },
++		// ... omitted code ...
++		context: { window: 1_047_576, output: 32_768, date: "2024-06-01", name: "gpt-4.1-mini-2025-04-14" },
+ 	},
+ 	"gpt-4.1-nano": {
+-		cost: { i: 0.10, db: 0.0025, o: 0.40, speed: 5 },
+-		// costIn: 0.10, costOut: 0.40, costCache: 0.0025, speed: 5,
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 1_047_576, output: 32_768, date: "2024-06-01" },
++		// ... omitted code ...
++		context: { window: 1_047_576, output: 32_768, date: "2024-06-01", name: "gpt-4.1-nano-2025-04-14" },
+ 	},
+ 	"gpt-4.5-preview": {
+-		cost: { i: 75.00, db: 37.50, o: 150, speed: 3 },
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 128_000, output: 16_384, date: "2023-10-01" },
++		// ... omitted code ...
++		context: { window: 128_000, output: 16_384, date: "2023-10-01", name: "gpt-4.5-preview-2025-02-27" },
+ 	},
+ 	"gpt-4o": {
+-		cost: { i: 2.50, db: 1.25, o: 10.00, speed: 3 },
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 128_000, output: 16_384, date: "2023-10-01" },
++		// ... omitted code ...
++		context: { window: 128_000, output: 16_384, date: "2023-10-01", name: "gpt-4o-2024-08-06" },
+ 	},
+ 	"gpt-4o-mini": {
+-		cost: { i: 0.15, db: 0.0075, o: 0.60, speed: 4 },
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 128_000, output: 16_384, date: "2023-10-01" },
++		// ... omitted code ...
++		context: { window: 128_000, output: 16_384, date: "2023-10-01", name: "gpt-4o-mini-2024-07-18" },
+ 	},
+ 	"o3": {
+-		cost: { i: 2.00, db: 0.50, o: 8.00, speed: 1 },
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 200_000, output: 100_000, date: "2024-06-01" },
++		// ... omitted code ...
++		context: { window: 200_000, output: 100_000, date: "2024-06-01", name: "o3-2025-04-16" },
+ 	},
+ 	"o3-pro": {
+-		cost: { i: 20.00, o: 80.00, speed: 1 },
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 200_000, output: 100_000, date: "2024-06-01" },
+-		features: {
+-			chatCompletions: false, assistants: false
+-		}
++		// ... omitted code ...
++		context: { window: 200_000, output: 100_000, date: "2024-06-01", name: "o3-pro-2025-06-10" },
+ 	},
+ 	"o3-mini": {
+-		cost: { i: 1.10, db: 0.55, o: 4.40, speed: 3 },
+-		input: ["text"], output: ["text"],
+-		context: { window: 200_000, output: 100_000, date: "2024-06-01" },
++		// ... omitted code ...
++		context: { window: 200_000, output: 100_000, date: "2024-06-01", name: "o3-mini-2025-01-31" },
+ 	},
+ 	"o1": {
+-		cost: { i: 15.00, db: 7.50, o: 60, speed: 1 },
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 200_000, output: 100_000, date: "2023-10-01" },
++		// ... omitted code ...
++		context: { window: 200_000, output: 100_000, date: "2023-10-01", name: "o1-2024-12-17" },
+ 	},
+ 	"o1-pro": {
+-		cost: { i: 150.00, o: 600, speed: 1 },
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 200_000, output: 100_000, date: "2023-10-01" },
++		// ... omitted code ...
++		context: { window: 200_000, output: 100_000, date: "2023-10-01", name: "o1-pro-2025-03-19" },
+ 	},
+ 	"o1-mini": {
+-		cost: { i: 1.10, db: 0.55, o: 4.40, speed: 2 },
+-		input: ["text"], output: ["text"],
+-		context: { window: 128_000, output: 65_536, date: "2023-10-01" },
++		// ... omitted code ...
++		context: { window: 128_000, output: 65_536, date: "2023-10-01", name: "o1-mini-2024-09-12" },
+ 	},
+ 	"o4-mini": {
+-		cost: { i: 2.00, db: 0.50, o: 8.00, speed: 1 },
+-		input: ["text", "image"], output: ["text"],
+-		context: { window: 200_000, output: 100_000, date: "2024-06-01" },
++		// ... omitted code ...
++		context: { window: 200_000, output: 100_000, date: "2024-06-01", name: "o4-mini-2025-04-16" },
+ 	},
+ }
+ const models = Object.fromEntries(

@@ -1,0 +1,16 @@
+<svg width="138" height="69" viewBox="0 0 138 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="69" height="69" fill="black"/>
+<rect x="4" width="9" height="69" fill="#FF0000"/>
+<rect x="4" y="69" width="9" height="24" transform="rotate(-90 4 69)" fill="#FF0000"/>
+<rect x="30" width="9" height="69" fill="#FF0000"/>
+<rect x="30" y="69" width="9" height="24" transform="rotate(-90 30 69)" fill="#FF0000"/>
+<rect x="65" y="69" width="9" height="24" transform="rotate(180 65 69)" fill="#FF0000"/>
+<rect x="65" y="39" width="9" height="9" transform="rotate(180 65 39)" fill="#FF0000"/>
+<rect x="138" y="69" width="69" height="69" transform="rotate(-180 138 69)" fill="black"/>
+<rect x="117" y="69" width="9" height="69" transform="rotate(-180 117 69)" fill="#FFFF00"/>
+<rect x="117" width="9" height="24" transform="rotate(90 117 0)" fill="#FFFF00"/>
+<rect x="91" y="69" width="9" height="69" transform="rotate(-180 91 69)" fill="#FFFF00"/>
+<rect x="91" width="9" height="24" transform="rotate(90 91 0)" fill="#FFFF00"/>
+<rect x="56" width="9" height="24" fill="#FFFF00"/>
+<rect x="132" y="39" width="9" height="9" transform="rotate(180 132 39)" fill="#0099FF"/>
+</svg>
