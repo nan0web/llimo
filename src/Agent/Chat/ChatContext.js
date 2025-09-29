@@ -27,16 +27,22 @@ export default class ChatContext {
 	responseFile = "chat/response.md"
 	/** @type {string} */
 	streamFile = "chat/stream.md"
-	#loopCount = 0
 	/** @type {boolean} */
 	cancelled = false
 
+	/**
+	 * @returns {number}
+	 */
 	get loopCount() {
-		return this.#loopCount
+		return this.history.filter(m => m.role === ChatMessage.ROLES.assistant).length
 	}
 
-	set loopCount(value) {
-		this.#loopCount = Number(value)
+	get cancelled() {
+		return this.#cancelled
+	}
+
+	cancel() {
+		this.#cancelled = true
 	}
 
 	/**
@@ -52,7 +58,6 @@ export default class ChatContext {
 	 * @param {string} [input.promptFile]
 	 * @param {string} [input.responseFile]
 	 * @param {string} [input.streamFile]
-	 * @param {number} [input.loopCount]
 	 * @param {boolean} [input.cancelled]
 	 */
 	constructor(input = {}) {
@@ -68,7 +73,6 @@ export default class ChatContext {
 			promptFile = this.promptFile,
 			responseFile = this.responseFile,
 			streamFile = this.streamFile,
-			loopCount = 0,
 			cancelled = false,
 		} = input
 		this.cwd = String(cwd)
@@ -82,14 +86,12 @@ export default class ChatContext {
 		this.promptFile = String(promptFile)
 		this.responseFile = String(responseFile)
 		this.streamFile = String(streamFile)
-		this.loopCount = Number(loopCount)
 		this.cancelled = Boolean(cancelled)
 	}
 
 	setResponse(response) {
 		this.chat.add(response)
 		this.prevResponse = response
-		this.loopCount = this.loopCount + 1
 	}
 
 	get history() {

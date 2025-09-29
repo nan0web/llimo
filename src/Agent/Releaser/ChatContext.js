@@ -19,9 +19,10 @@ export default class ReleaserChatContext extends ChatContext {
 	 * @param {ChatResponse} response
 	 */
 	setResponse(response) {
+		this.chat.recent.add(response)
 		this.prevResponse = response
 	}
-	
+
 	toJSON() {
 		return {
 			tasks: this.tasks.map(t => t.toJSON ? t.toJSON() : t ),

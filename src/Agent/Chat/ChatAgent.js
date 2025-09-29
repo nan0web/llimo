@@ -195,13 +195,15 @@ export default class ChatAgent {
 	 * Runs a single iteration (transform input → LLM → transform output).
 	 * @param {ChatMessage} input - Input for this turn
 	 * @param {object} context - Current context
-	 * @returns {Promise<{response: Response, error?: Error}>} Single response or error
+	 * @returns {Promise<{response: Response | null, error: any}>} Single response or error
 	 */
 	async runSingleTurn(input, context) {
 		try {
 			// Transform input
 			const transformedInput = await this.transformInput(input, context)
-			if (transformedInput.error) return { error: transformedInput.error }
+			if (!(transformedInput instanceof ChatMessage)) {
+				return { response: null, error: transformedInput.error }
+			}
 
 			// LLM call (using driver)
 			const response = await this.app.chatProvider.driver.stream(
@@ -214,11 +216,13 @@ export default class ChatAgent {
 
 			// Transform output
 			const transformedOutput = await this.transformOutput(response, context)
-			if (transformedOutput.error) return { error: transformedOutput.error }
+			if (!(transformedOutput instanceof Response)) {
+				return { response: null, error: transformedOutput.error }
+			}
 
-			return { response: transformedOutput }
-		} catch (error) {
-			return { error }
+			return { response: transformedOutput, error: null }
+		} catch (/** @type {any} */ error) {
+			return { response: null, error }
 		}
 	}
 
@@ -285,7 +289,7 @@ export default class ChatAgent {
 	 */
 	async createChat() {
 		await this.requireFS()
-		const content = await this.fs.loadDocument("system.md", this.SYSTEM_MD)
+		const content = await this.fs.loadDocumentAs(".txt", "system.md") || this.SYSTEM_MD
 		return new ChatMessage({ role: ChatMessage.ROLES.system, content })
 	}
 

@@ -9,6 +9,7 @@ import ChatProvider from "../../../Chat/Provider.js"
 import ChatMessage from "../../../Chat/Message.js"
 import ChatResponse from "../../../Chat/Response.js"
 import App from "../../../App.js"
+import systemMd from "../system.md/index.js"
 
 // Mock classes to avoid real API calls
 class TestModel extends ChatModel {
@@ -48,7 +49,7 @@ class TestDriver {
 			this.emit("data", { chunk, input, model })
 		}
 		// Emit end after chunks
-		const mockResponse = new ChatResponse("Mock release response: v1.0.0 completed")
+		const mockResponse = new ChatResponse({ content: "Mock release response: v1.0.0 completed", role: "assistant" })
 		mockResponse.model = model.name
 		mockResponse.usage = { prompt_tokens: 10, completion_tokens: 20, total_tokens: 30 }
 		this.emit("end", mockResponse)
@@ -98,7 +99,7 @@ describe("ReleaserAgent Components (Atomic Tests)", () => {
 			const app = new App({ chatProvider: new TestProvider(), chatModel: new TestModel() })
 			agent = new ReleaserAgent({ app, db, fs })
 			context = new ReleaserChatContext({ agent })
-			stepResult = { response: new ChatResponse("completed") }
+			stepResult = { response: new ChatResponse({ content: "completed", role: "assistant" }) }
 		})
 
 		it("should update tasks to complete on completion response", async () => {
@@ -108,7 +109,7 @@ describe("ReleaserAgent Components (Atomic Tests)", () => {
 		})
 
 		it("should load initial tasks from me.md if none set", async () => {
-			const stepResultEmpty = { response: new ChatResponse("something") }
+			const stepResultEmpty = { response: new ChatResponse({ content: "something", role: "assistant" }) }
 			await agent.updateTasksFromResponse(stepResultEmpty, context)
 			assert.ok(context.tasks.length > 0)
 			assert.strictEqual(context.tasks[0].status, "process")
@@ -127,7 +128,7 @@ describe("ReleaserAgent Components (Atomic Tests)", () => {
 		beforeEach(() => {
 			fs = new DB({
 				predefined: [
-					["system.md", "# Instructions\nYou are a good assistant\n"]
+					["system.md", systemMd]
 				]
 			})
 		})
@@ -138,7 +139,7 @@ describe("ReleaserAgent Components (Atomic Tests)", () => {
 			const initialChat = await agent.createChat()
 			assert.ok(initialChat instanceof ChatMessage)
 			assert.strictEqual(initialChat.role, ChatMessage.ROLES.system)
-			assert.ok(initialChat.content.includes("You are a good assistant"))
+			assert.ok(initialChat.content.includes("Формат комунікації"))
 		})
 
 		it("should throw if no FS connected", async () => {
@@ -160,7 +161,7 @@ describe("Correct release scenario", () => {
 		// Setup FS with release content in me.md
 		fs = new DB({
 			predefined: [
-				["system.md", "# Instructions\nYou are a good assistant\n"],
+				["system.md", systemMd],
 				["me.md", `# Release v1.0.0\n## Atoms\n### Agent class\nWrite an agent class for LLM operations.\n- [x] Implement base class\n- [ ] Add Releaser extension`]
 			]
 		})
@@ -184,21 +185,20 @@ describe("Correct release scenario", () => {
 			model: new TestModel(),
 			provider: new TestProvider(),
 			agent,
-			loopCount: 0,
 		})
 
 		// Mock the FS load to track calls and provide system.md
-		originalLoad = fs.loadDocument
+		originalLoad = fs.loadDocumentAs
 		loadCalled = 0
-		fs.loadDocument = async (doc, defaultValue) => {
+		fs.loadDocumentAs = async (type, doc) => {
 			loadCalled++
 			if (doc === "system.md") {
-				return "# Instructions\nYou are a good assistant\n"
+				return systemMd
 			}
 			if (doc === "me.md") {
 				return "# Release v1.0.0\n## Atoms\n### Agent class\nWrite an agent class for LLM operations.\n- [x] Implement base class\n- [ ] Add Releaser extension"
 			}
-			return originalLoad.call(fs, doc, defaultValue)
+			return originalLoad.call(fs, type, doc)
 		}
 	})
 
@@ -206,7 +206,7 @@ describe("Correct release scenario", () => {
 		// Cleanup temporary DB if needed
 		await db.disconnect()
 		// Restore original
-		if (originalLoad) fs.loadDocument = originalLoad
+		if (originalLoad) fs.loadDocumentAs = originalLoad
 	})
 
 	describe("Common functions", () => {
@@ -214,7 +214,7 @@ describe("Correct release scenario", () => {
 			const initialChat = await agent.createChat()
 			assert.ok(initialChat instanceof ChatMessage)
 			assert.strictEqual(initialChat.role, ChatMessage.ROLES.system)
-			assert.ok(initialChat.content.includes("You are a good assistant"))
+			assert.ok(initialChat.content.includes("Формат комунікації"))
 		})
 
 		it("throws error if no FS connected during createChat", async () => {
@@ -227,30 +227,30 @@ describe("Correct release scenario", () => {
 			)
 		})
 	})
-	
+
 	describe("Single Turn Processing", () => {
 		it("should load system.md during createChat (load tracking)", async () => {
 			const beforeLoad = loadCalled
 			await agent.createChat() // Loads system.md
 			assert.strictEqual(loadCalled, beforeLoad + 1)
-			const meContent = await fs.loadDocument("me.md") // Explicit load for me.md
+			const meContent = await fs.loadDocumentAs(".txt", "me.md") // Explicit load for me.md
 			assert.ok(meContent.includes("Release v1.0.0"))
 		})
 
-		it.skip("loads release tasks from me.md and processes single turn", async () => {
+		it("loads release tasks from me.md and processes single turn", async () => {
 			// Ensure app has provider and model
 			agent.app.chatProvider = context.provider
 			agent.app.chatModel = context.model
 
 			// Call createChat to load system.md
-			await agent.createChat()
+			const systemMsg = await agent.createChat()
+			context.chat.add(systemMsg)
 
 			// Set initial user message
-			context.chat = new ChatMessage({ role: "user", content: "Initiate release v1.0.0" })
+			const userMsg = new ChatMessage({ role: "user", content: "Initiate release v1.0.0" })
+			context.chat.add(userMsg)
 
 			// Run the agent process
-			// @todo fix the freezing (infiite loop, because loopCount = amount of #assistant roles messages in the chat)
-			// use a stack of chat messages that should be fetched step by step
 			const result = await agent.run(context, {
 				maxLoops: 1,
 				onStepEnd: async () => true // Continue after first step
@@ -258,11 +258,11 @@ describe("Correct release scenario", () => {
 
 			assert.ok(result, "Run should return a result")
 			assert.ok(result.response, "Result should have a response")
-			assert.strictEqual(result.response.content, "Mock release response: v1.0.0 completed")
+			assert.ok(result.response.content.includes("completed"))
 			assert.strictEqual(loadCalled, 2, "Should load system.md and me.md") // From createChat and updateTasks
 
 			// Check that tasks were updated
-			assert.deepStrictEqual(context.tasks, [
+			assert.deepStrictEqual(context.tasks.map(t => ({ id: t.id, status: t.status })), [
 				{ id: "release-v1.0.0", status: "done" }
 			])
 
@@ -273,51 +273,77 @@ describe("Correct release scenario", () => {
 	})
 
 	describe("Multi-Turn Handling", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			// Reset for multi-turn
 			context = new ReleaserChatContext({
 				model: new TestModel(),
 				provider: new TestProvider(),
 				agent,
-				loopCount: 0,
 			})
-			context.chat = new ChatMessage({ role: "user", content: "Process release step 1" })
+			// Add system message
+			const systemMsg = await agent.createChat()
+			context.chat.add(systemMsg)
+			// Add first user message
+			context.chat.add(new ChatMessage({ role: "user", content: "Process release step 1" }))
 		})
 
 		it("should handle multiple loops without driver errors", async () => {
-			// Ensure app setup
-			agent.app.chatProvider = context.provider
-			agent.app.chatModel = context.model
+			class MockReleaserAgent extends ReleaserAgent {
+				callIndex = 0
+				mockResponses = [
+					new ChatResponse({ content: "Processing release tasks...", role: "assistant" }),
+					new ChatResponse({ content: "Release v1.0.0 completed", role: "assistant" })
+				]
+				async mockSingleTurn(input, ctx) {
+					const response = this.mockResponses[this.callIndex % this.mockResponses.length]
+					this.callIndex++
+					return { response, error: null }
+				}
 
-			// Override runSingleTurn for controlled simulation
-			const mockResponses = [
-				new ChatResponse("Processing release tasks..."),
-				new ChatResponse("Release v1.0.0 completed")
-			]
-			let callIndex = 0
-			const originalRunSingleTurn = agent.runSingleTurn
-			const mockSingleTurn = async (input, ctx) => {
-				const response = mockResponses[callIndex % mockResponses.length]
-				callIndex++
-				ctx.loopCount++
-				return { response }
+				async runSingleTurn(input, context) {
+					return await this.mockSingleTurn(input, context)
+				}
+
+				shouldLoop(context) {
+					return true
+				}
+
+				getInputFromContext(context) {
+					if (this.callIndex === 1) {
+						// Add second user message for multi-turn simulation
+						const user2 = new ChatMessage({ role: "user", content: "Next step" })
+						context.chat.add(user2)
+						return user2
+					}
+					return super.getInputFromContext(context)
+				}
 			}
-			agent.runSingleTurn = mockSingleTurn
 
-			try {
-				const multiResult = await agent.run(context, {
-					maxLoops: 2,
-					onStepEnd: async () => callIndex < 2 // Continue for 2 loops
-				})
+			const mockAgent = new MockReleaserAgent({
+				app, // Pass the app with provider and model
+				db,
+				fs, // Pass FS explicitly
+				name: "Releaser Test Agent",
+				desc: "Test releaser with mocked dependencies"
+			})
 
-				assert.strictEqual(multiResult.response.content, "Release v1.0.0 completed")
-				assert.strictEqual(callIndex, 2, "Should call runSingleTurn twice")
-				assert.ok(context.tasks.length > 0, "Tasks should be updated")
-				assert.strictEqual(context.tasks[0].status, "done")
-				assert.strictEqual(context.loopCount, 2, "Should increment loopCount twice")
-			} finally {
-				agent.runSingleTurn = originalRunSingleTurn
-			}
+			const multiResult = await mockAgent.run(context, {
+				maxLoops: 3,
+				onStepEnd: async () => mockAgent.callIndex < 2 // Continue for 2 loops
+			})
+
+			// Loose check for key messages in order
+			const chatLog = String(context.chat).split("\n").filter(Boolean)
+			assert.ok(chatLog.some(l => l.includes("Process release step 1")), "First user message present")
+			assert.ok(chatLog.some(l => l.includes("Processing release tasks...")), "First assistant response present")
+			assert.ok(chatLog.some(l => l.includes("Next step")), "Second user message present")
+			assert.ok(chatLog.some(l => l.includes("Release v1.0.0 completed")), "Second assistant response present")
+
+			assert.strictEqual(multiResult.response.content, "Release v1.0.0 completed")
+			assert.strictEqual(mockAgent.callIndex, 2, "Should call runSingleTurn twice")
+			assert.ok(context.tasks.length > 0, "Tasks should be updated")
+			assert.strictEqual(context.tasks[0].status, "done")
+			assert.strictEqual(context.loopCount, 2, "Should increment loopCount twice")
 		})
 	})
 

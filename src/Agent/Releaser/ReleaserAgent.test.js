@@ -19,12 +19,12 @@ describe('ReleaserAgent', () => {
 	it('should update context tasks to complete when response contains "completed"', async () => {
 		const context = new ReleaserChatContext({})
 		const stepResult = {
-			response: new ChatResponse('Release task completed')
+			response: new ChatResponse({ content: 'Release task completed', role: 'assistant' })
 		}
 
 		// Mock FS to return me.md content
 		agent.fs = {
-			loadDocument: async () => '# Release v1.2.3\n- Task 1\n- Task 2'
+			loadDocumentAs: async (type, file) => '# Release v1.2.3\n- Task 1\n- Task 2'
 		}
 
 		await agent.updateTasksFromResponse(stepResult, context)
@@ -37,12 +37,12 @@ describe('ReleaserAgent', () => {
 	it('should update context tasks to processing when response does not contain "completed"', async () => {
 		const context = new ReleaserChatContext({})
 		const stepResult = {
-			response: new ChatResponse('Processing release tasks')
+			response: new ChatResponse({ content: 'Processing release tasks', role: 'assistant' })
 		}
 
 		// Mock FS to return me.md content
 		agent.fs = {
-			loadDocument: async () => '# Release v1.2.3\n- Task 1\n- Task 2'
+			loadDocumentAs: async (type, file) => '# Release v1.2.3\n- Task 1\n- Task 2'
 		}
 
 		await agent.updateTasksFromResponse(stepResult, context)
@@ -55,12 +55,12 @@ describe('ReleaserAgent', () => {
 	it('should load initial tasks from me.md if context tasks are empty', async () => {
 		const context = new ReleaserChatContext({ tasks: [] })
 		const stepResult = {
-			response: new ChatResponse('Some response')
+			response: new ChatResponse({ content: 'Some response', role: 'assistant' })
 		}
 
 		// Mock FS to return me.md content
 		agent.fs = {
-			loadDocument: async () => '# Release v1.2.3\n- Task 1\n- Task 2'
+			loadDocumentAs: async (type, file) => '# Release v1.2.3\n- Task 1\n- Task 2'
 		}
 
 		await agent.updateTasksFromResponse(stepResult, context)
