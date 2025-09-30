@@ -8,6 +8,7 @@ class CerebrasDriver extends OpenAIDriver {
 	static MODELS = CerebrasModels
 
 	/** @type {Cerebras} */
+	// @ts-ignorep
 	api
 
 	constructor(input) {
@@ -15,11 +16,11 @@ class CerebrasDriver extends OpenAIDriver {
 		this.api = new Cerebras({ apiKey: this.auth?.apiKey })
 	}
 
-	getModels() {
+	async getModels() {
 		return Object.values(CerebrasModels)
 	}
 
-	getModel(modelId) {
+	async getModel(modelId) {
 		return CerebrasModels[modelId]
 	}
 

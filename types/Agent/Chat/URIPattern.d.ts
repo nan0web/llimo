@@ -18,7 +18,7 @@ declare class URIPattern {
      */
     get isLocal(): boolean;
     /**
-     * Checks if the URI contains pattern matching characters (*, ?, [, {, !, +, @)
+     * Checks if the URI contains pattern matching characters (*, ?, [, {, !, +, [at])
      * @returns {boolean} - True if URI is a pattern, false otherwise
      */
     get isPattern(): boolean;

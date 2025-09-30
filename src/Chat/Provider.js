@@ -28,31 +28,20 @@ class ChatProvider {
 
 	/**
 	 * @param {object} props
-	 * @param {string} props.name
-	 * @param {string} props.slug
-	 * @param {string} props.privacy_policy_url
-	 * @param {string} props.terms_of_service_url
-	 * @param {string} props.status_page_url
-	 * @param {boolean} props.may_log_prompts
-	 * @param {boolean} props.may_train_on_data
-	 * @param {boolean} props.moderated_by_openrouter
-	 * @param {ChatDriver|string|null|undefined} props.driver
-	 * @param {object} props.auth
-	 * @param {DB} props.db
-	 * @param {object} props.options
+	 * @param {string} [props.name]
+	 * @param {string} [props.slug]
+	 * @param {string} [props.privacy_policy_url]
+	 * @param {string} [props.terms_of_service_url]
+	 * @param {string} [props.status_page_url]
+	 * @param {boolean} [props.may_log_prompts]
+	 * @param {boolean} [props.may_train_on_data]
+	 * @param {boolean} [props.moderated_by_openrouter]
+	 * @param {ChatDriver} props.driver
+	 * @param {object} [props.auth]
+	 * @param {DB} [props.db]
+	 * @param {object} [props.options]
 	 */
-	constructor(props = {}) {
-		if ("string" === typeof props) {
-			props = { name: props }
-		}
-		if ("string" === typeof props.driver) {
-			const Driver = ChatDriver.getDriver(props.driver)
-			if (Driver) {
-				props.driver = new Driver({ ...props })
-			} else {
-				props.driver = null
-			}
-		}
+	constructor(props) {
 		const {
 			name = "",
 			slug = "",
@@ -62,7 +51,7 @@ class ChatProvider {
 			may_log_prompts = false,
 			may_train_on_data = false,
 			moderated_by_openrouter = false,
-			driver = undefined,
+			driver,
 			auth = {},
 			db,
 			options = {},
@@ -75,10 +64,10 @@ class ChatProvider {
 		this.may_log_prompts = Boolean(may_log_prompts)
 		this.may_train_on_data = Boolean(may_train_on_data)
 		this.moderated_by_openrouter = Boolean(moderated_by_openrouter)
-		this.driver = ChatDriver.from(driver)
 		this.auth = auth
 		this.db = db
 		this.options = options
+		this.driver = ChatDriver.from(driver)
 	}
 
 	get empty() {
@@ -102,6 +91,10 @@ class ChatProvider {
 		await this.driver.init()
 	}
 
+	/**
+	 * @param {any} props
+	 * @returns {ChatProvider}
+	 */
 	static from(props = {}) {
 		if (props instanceof ChatProvider) return props
 		return new this(props)

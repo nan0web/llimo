@@ -75,13 +75,15 @@ describe('ReleaserAgent', () => {
 			agent.fs = {
 				loadDocumentAs: async (ext, file) => {
 					if (file === 'system.md') {
-						return 'Формат комунікації\nВсі відповіді мають бути присвячені завданням з першого повідомлення релізу.'
+						return 'Формат комунікації\nВсі відповіді мають повертатись лише у JSONL форматі: [{ file: string, content: string }, ...].\nfile - локальний шлях до файлу (file: "src/README.md.js", content: "export ...") або команда, якщо починається з : (file: ":bash", content: "ls .")\n'
 					}
 					return ''
 				}
 			}
 			const initialChat = await agent.createChat()
-			assert.ok(initialChat.content.includes('Формат комунікації'))
+			assert.ok(initialChat instanceof ChatMessage)
+			assert.strictEqual(initialChat.role, ChatMessage.ROLES.system)
+			assert.ok(initialChat.content.includes("Формат комунікації"))
 		})
 
 		it('should throw if no FS connected', async () => {

@@ -15,30 +15,30 @@ class StreamOptions {
 	stream
 	/** @type {number | undefined} */
 	temperature
-	/** @type {number} */
+	/** @type {number | undefined} */
 	max_tokens
-	/** @type {number} */
+	/** @type {number | undefined} */
 	top_p
 
 	/**
-	 * @param {object} props
-	 * @param {string} props.model
-	 * @param {Array<{role: string, content: string}>} props.messages
-	 * @param {boolean} props.stream
-	 * @param {number} props.temperature
-	 * @param {number} props.max_tokens
-	 * @param {number} props.top_p
+	 * @param {Object} [input]
+	 * @param {string} [input.model=""]
+	 * @param {Array<{role: string, content: string}>} [input.messages]
+	 * @param {boolean} [input.stream]
+	 * @param {number} [input.temperature]
+	 * @param {number} [input.max_tokens]
+	 * @param {number} [input.top_p]
 	 */
-	constructor(props = {}) {
+	constructor(input = {}) {
 		const {
-			model,
+			model = "",
 			messages = [],
-			stream,
-			temperature,
-			max_tokens,
-			top_p,
-		} = props
-		this.model = model
+			stream = false,
+			temperature = undefined,
+			max_tokens = undefined,
+			top_p = undefined,
+		} = input
+		this.model = String(model)
 		this.messages = messages
 		this.stream = stream
 		this.temperature = temperature

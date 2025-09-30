@@ -36,8 +36,8 @@ export default class ChatContext {
     cwd: string;
     /** @type {ChatModel} */
     model: ChatModel;
-    /** @type {ChatProvider} */
-    provider: ChatProvider;
+    /** @type {ChatProvider | undefined} */
+    provider: ChatProvider | undefined;
     /** @type {ChatAgent} */
     agent: ChatAgent;
     /** @type {ChatMessage} */

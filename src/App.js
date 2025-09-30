@@ -5,8 +5,11 @@ import ChatModel from "./Chat/Model/Model.js"
 import ChatMessage from "./Chat/Message.js"
 import { View } from "@nan0web/ui"
 import event from "@nan0web/event"
+import ChatContext from "./Chat/Context.js"
 
 class App {
+	/** @type {string} */
+	configFile
 	/** @type {ChatProvider} */
 	chatProvider
 	/** @type {ChatModel} */
@@ -19,6 +22,7 @@ class App {
 	view
 	constructor(props = {}) {
 		const {
+			configFile = "llm.config.js",
 			chatProvider = {},
 			chatModel = {},
 			chat = "",
@@ -26,6 +30,7 @@ class App {
 			view = new View(),
 		} = props
 		this.bus = event()
+		this.configFile = String(configFile)
 		this.chatProvider = ChatProvider.from(chatProvider)
 		this.chatModel = ChatModel.from(chatModel)
 		this.chat = ChatMessage.from(chat)
@@ -50,7 +55,7 @@ class App {
 	/**
 	 * Asks to save files [context.files].
 	 * @param {ChatMessage} chat
-	 * @param {CoderOutputContext} context
+	 * @param {ChatContext} context
 	 */
 	async requireSave(chat, context) {
 		throw new Error("Abstract! Must be implemented")
@@ -58,7 +63,7 @@ class App {
 	/**
 	 * Asks to run tests [context.tests].
 	 * @param {ChatMessage} chat
-	 * @param {CoderOutputContext} context
+	 * @param {ChatContext} context
 	 */
 	async requireTest(chat, context) {
 		throw new Error("Abstract! Must be implemented")
@@ -66,7 +71,7 @@ class App {
 	async findConfigs({
 		uri = this.configFile,
 		configs = new Map(),
-		allowedExt = this.allowedConfigExtensions
+		allowedExt = [".js"]
 	}) {
 		await this.requireDB()
 		const ext = this.db.extname(uri)
@@ -74,10 +79,9 @@ class App {
 			throw new Error("Invalid extension for the config file " + ext)
 		}
 		const file = await this.db.resolve(uri)
-		const dir = file.split("/")
+		const dir = this.db.dirname(file)
 		do {
-			dir.pop()
-			const configFile = await this.db.resolve(dir.join(this.sep), uri)
+			const configFile = await this.db.resolve(dir, uri)
 			try {
 				await this.db.ensureAccess(configFile, "r")
 				if (!configs.has(configFile)) {
@@ -90,7 +94,7 @@ class App {
 		} while (dir.length > 0)
 		try {
 			await this.db.ensureAccess(file, "r")
-			if (!file.endsWith(this.sep + uri) && file !== uri) {
+			if (!file.endsWith("/" + uri) && file !== uri) {
 				throw new Error("Incorrect config file")
 			}
 			if (!configs.has(file)) {

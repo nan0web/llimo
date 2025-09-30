@@ -18,7 +18,7 @@ export default class ChatAgent {
      * @param {string[]} [props.outputPipeline=[]]
      * @param {string} [props.name="Base Agent v1"]
      * @param {string} [props.desc="Base agent with optional loop; extend for multi-turn tasks"]
-     * @param {App} props.app
+     * @param {import("../../App.js").default} props.app
      * @param {DB} props.db
      * @param {DB} props.fs
      */
@@ -27,7 +27,7 @@ export default class ChatAgent {
         outputPipeline?: string[] | undefined;
         name?: string | undefined;
         desc?: string | undefined;
-        app: App;
+        app: import("../../App.js").default;
         db: DB;
         fs: DB;
     });
@@ -39,8 +39,8 @@ export default class ChatAgent {
     name: string;
     /** @type {string} */
     desc: string;
-    /** @type {App} */
-    app: App;
+    /** @type {import("../../App.js").default} */
+    app: import("../../App.js").default;
     /** @type {DB} */
     db: DB;
     /** @type {DB} */
@@ -122,8 +122,7 @@ export default class ChatAgent {
      */
     mightBeIncludes(context: ChatContext): Promise<boolean>;
 }
-import App from "../../App.js";
 import DB from "@nan0web/db";
-import ChatContext from "../../Chat/Context.js";
+import ChatContext from "./ChatContext.js";
 import Response from "../../Chat/Response.js";
 import ChatMessage from "../../Chat/Message.js";

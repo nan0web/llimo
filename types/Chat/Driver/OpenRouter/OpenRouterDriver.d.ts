@@ -10,8 +10,21 @@ export default OpenRouterDriver;
  * ```
  */
 declare class OpenRouterDriver extends ChatDriver {
-    static DEFAULT_HEADERS: {};
-    constructor(config?: {});
+    /**
+     * @param {object} config
+     * @param {OpenAI} config.api
+     * @param {Partial<OpenRouterOptions>} [config.options]
+     * @param {Object} [config.auth]
+     * @param {DB} config.db
+     * @param {ChatModel} config.model
+     */
+    constructor(config: {
+        api: OpenAI;
+        options?: Partial<OpenRouterOptions> | undefined;
+        auth?: any;
+        db: DB;
+        model: ChatModel;
+    });
     /** @type {OpenAI} */
     api: OpenAI;
     /** @type {OpenRouterOptions} */
@@ -25,19 +38,10 @@ declare class OpenRouterDriver extends ChatDriver {
      */
     _complete(prompt: string | ChatMessage, model: string | ChatModel, context?: object): Promise<Response>;
     /**
-     * Prepare request for OpenRouter API
-     * @param {string|ChatMessage} prompt
-     * @param {ChatModel|string} model
-     * @param {boolean} [stream=false] - Whether this is a streaming request
-     * @returns {object}
+     * @param {any} options
+     * @returns {AsyncGenerator<any, any, any>}
      */
-    prepareRequest(prompt: string | ChatMessage, model: ChatModel | string, stream?: boolean | undefined): object;
-    getModels(): Promise<any[]>;
-    /**
-     * @param {StreamOptions} options
-     * @returns {Promise<Stream<ChatCompletionChunk> | ChatCompletion>}
-     */
-    createChatCompletionStream(options: StreamOptions): Promise<Stream<ChatCompletionChunk> | ChatCompletion>;
+    createChatCompletionStream(options: any): AsyncGenerator<any, any, any>;
 }
 declare namespace OpenRouterDriver {
     export { OpenRouterOptions as Options };
@@ -49,5 +53,4 @@ import OpenRouterOptions from "./Options.js";
 import ChatMessage from "../../index.js";
 import { ChatModel } from "../../index.js";
 import { Response } from "../../index.js";
-import StreamOptions from "../../Stream/Options.js";
-import { Stream } from "openai/core/streaming.js";
+import DB from "@nan0web/db";

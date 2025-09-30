@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "esnext",
-		"module": "esnext",
+		"module": "nodenext",
 		"lib": ["esnext"],
 		"declaration": true,
 		"declarationMap": false,
@@ -12,12 +12,12 @@
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
-		"moduleResolution": "bundler",
+		"moduleResolution": "nodenext",
 		"allowSyntheticDefaultImports": true,
 		"noImplicitAny": false,
 		"allowJs": true,
 		"checkJs": true
 	},
-	"include": ["src/**/*"],
+	"include": ["src/**/*", "src/types.d.ts"],
 	"exclude": ["dist", "node_modules", "**/*.test.js", "types"]
 }

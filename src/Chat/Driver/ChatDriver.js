@@ -1,10 +1,10 @@
 import crypto from "node:crypto"
-import fetch from "@nan0web/http-node"
+import fetch, { ResponseMessage } from "@nan0web/http-node"
 import DB, { Data } from "@nan0web/db"
 import { to } from "@nan0web/types"
 import event from "@nan0web/event"
 import { encode } from 'gpt-tokenizer'
-import Model from "../Model/Model.js"
+import ChatModel from "../Model/Model.js"
 import Response from "../Response.js"
 import Options from "../Options.js"
 import { readValueOrFile } from "nanoweb-fs"
@@ -43,7 +43,7 @@ export default class ChatDriver {
 	config
 	/** @type {object} */
 	auth
-	/** @type {Model} */
+	/** @type {ChatModel} */
 	model
 	/** @type {DB} */
 	db
@@ -54,9 +54,8 @@ export default class ChatDriver {
 	 * Creates driver instance
 	 * @param {object} props
 	 * @param {object} [props.auth={}] Auth config.
-	 * @param {Model} props.model Model
+	 * @param {ChatModel} props.model Model
 	 * @param {DB} props.db Database
-	 * @param {string} props.name Name
 	 * @param {Partial<DriverOptions>} props.options Default options
 	 */
 	constructor(props) {
@@ -105,6 +104,13 @@ export default class ChatDriver {
 	}
 
 	/**
+	 * @returns {number}
+	 */
+	get DEFAULT_MAX_TOKENS() {
+		return /** @type {typeof ChatDriver} */ (this.constructor).DEFAULT_MAX_TOKENS
+	}
+
+	/**
 	 * @returns {Record<string, string>}
 	 */
 	get DEFAULT_HEADERS() {
@@ -116,6 +122,13 @@ export default class ChatDriver {
 	 */
 	get MODELS() {
 		return /** @type {typeof ChatDriver} */ (this.constructor).MODELS
+	}
+
+	/**
+	 * @returns {number}
+	 */
+	get LOG_STREAM_INTERVAL() {
+		return /** @type {typeof ChatDriver} */ (this.constructor).LOG_STREAM_INTERVAL
 	}
 
 
@@ -145,7 +158,7 @@ export default class ChatDriver {
 		const suffix = "." + (prefix ? prefix.replaceAll(".", "") : "stream")
 		const saveLog = async (log, useTimer = false) => {
 			if (!this.db) return false
-			const allowed = !useTimer || (Date.now() - lastSave > this.constructor.LOG_STREAM_INTERVAL)
+			const allowed = !useTimer || (Date.now() - lastSave > this.LOG_STREAM_INTERVAL)
 			if (allowed) {
 				await this.db.set(log.uri + suffix + ".json", to(Object)(log))
 				await this.db.push()
@@ -191,12 +204,16 @@ export default class ChatDriver {
 	 */
 	async init() {
 		if (!this.model) {
-			this.model = await this.getModel(this.DEFAULT_MODEL)
+			const model = await this.getModel(this.DEFAULT_MODEL)
+			if (!model) {
+				throw new Error("Model is not defined")
+			}
+			this.model = model
 		}
 		if (this.auth) {
 			const entries = []
 			for (const [key, value] of Object.entries(this.auth)) {
-				const v = await this.readValueOrFile(value, this.root)
+				const v = await this.readValueOrFile(value, this.db.absolute("."))
 				entries.push([key, v])
 			}
 			this.auth = Object.fromEntries(entries)
@@ -212,7 +229,7 @@ export default class ChatDriver {
 	 * Wrapper for fetch requests
 	 * @param {string} url Request URL
 	 * @param {object} req Request options
-	 * @returns {Promise<NodeResponse>} Fetch response
+	 * @returns {Promise<ResponseMessage>} Fetch response
 	 */
 	async fetch(url, req) {
 		return await fetch(url, req)
@@ -230,13 +247,13 @@ export default class ChatDriver {
 
 	/**
 	 * Gets model by name
-	 * @param {string|Model} model - Model name
-	 * @returns {Promise<Model|null>} - Model instance
+	 * @param {string|ChatModel} model - Model name
+	 * @returns {Promise<ChatModel|null>} - Model instance
 	 */
 	async getModel(model) {
 		if (!model) return null
 		if (this.model && this.model.name === model) return this.model
-		if (model instanceof Model) {
+		if (model instanceof ChatModel) {
 			return Object.entries(this.MODELS).map(([, m]) => m).find(m => m === model)
 		}
 		if (this.MODELS[model]) {
@@ -251,14 +268,14 @@ export default class ChatDriver {
 	}
 
 	/**
-	 * @returns {Promise<Model[]>}
+	 * @returns {Promise<ChatModel[]>}
 	 */
 	async getModels() {
 		return []
 	}
 
 	getRealModel() {
-		return this.model.name ?? this.constructor.DEFAULT_MODEL
+		return this.model.name ?? this.DEFAULT_MODEL
 	}
 
 	/**
@@ -307,16 +324,17 @@ export default class ChatDriver {
 	/**
 	 * Completes prompt using LLM model
 	 * @param {string|ChatMessage} prompt Input prompt
-	 * @param {string|Model} model Model to use
+	 * @param {string|ChatModel} model Model to use
 	 * @param {object} [context={}] Context for events
-	 * @returns {Promise<Response>} Response
+	 * @returns {Promise<Response | undefined>} Response
 	 */
 	async complete(prompt, model, context = {}) {
 		if ('string' === typeof model) {
-			model = this.getModel(model)
-			if (!model) {
+			const m = await this.getModel(model)
+			if (!(m instanceof ChatModel)) {
 				throw new Error("Model not found: " + model)
 			}
+			model = m
 		}
 		return this._complete(prompt, model, context)
 	}
@@ -336,7 +354,7 @@ export default class ChatDriver {
 
 	/**
 	 * @param {ChatMessage} chat
-	 * @param {Model} model
+	 * @param {ChatModel} model
 	 * @param {Function} onData
 	 * @returns {Promise<Response>}
 	 */
@@ -454,7 +472,7 @@ export default class ChatDriver {
 				...this._authHeader(),
 			},
 			body: JSON.stringify({
-				model: this.model?.name || this.constructor.DEFAULT_MODEL,
+				model: this.model?.name || this.DEFAULT_MODEL,
 				messages: prompt.toArray()
 			})
 		}
@@ -469,20 +487,20 @@ export default class ChatDriver {
 		if (endpoint) {
 			return endpoint
 		}
-		return String(this.config.endpoint ?? this.constructor.DEFAULT_ENDPOINT).replace(/\/+$/, '') + '/chat/completions'
+		return String(this.config.endpoint ?? this.DEFAULT_ENDPOINT).replace(/\/+$/, '') + '/chat/completions'
 	}
 
 	/**
 	 * @param {StreamOptions} options
-	 * @returns {Stream<ChatCompletionChunk> | ChatCompletion}
+	 * @returns {AsyncGenerator<any, any, any>}
 	 */
-	async createChatCompletionStream(options) {
+	async *createChatCompletionStream(options) {
 		throw new Error("Abstract! Must be extended")
 	}
 
 	/**
 	 * Prepares chat completion request
-	 * @param {ChatMessage|function} prompt ChatMessage or function
+	 * @param {ChatMessage|string} prompt ChatMessage or function
 	 * @returns {Promise<object>} Request options for fetch()
 	 */
 	async _chatCompletionRequest(prompt) {
@@ -502,9 +520,9 @@ export default class ChatDriver {
 	/**
 	 * Internal completion method
 	 * @param {string|ChatMessage} prompt Input prompt
-	 * @param {Model} model Model to use
+	 * @param {ChatModel} model Model to use
 	 * @param {object} [context={}] Context for events
-	 * @returns {Promise<Response>} Response
+	 * @returns {Promise<Response | undefined>} Response
 	 * @emits start {Object} Before starting request
 	 * @emits completeInterval {Object} During request (every 99ms)
 	 * @emits data {Object} On receiving data chunk
@@ -512,7 +530,8 @@ export default class ChatDriver {
 	 * @emits error {Error} On error
 	 */
 	async _complete(prompt, model, context = {}) {
-		const id = this.constructor.uniqueID()
+		prompt = ChatMessage.from(prompt)
+		const id = /** @type {typeof ChatDriver} */ (this.constructor).uniqueID()
 		const startedAt = Date.now()
 		const eventData = { ...context, id, model, prompt, startedAt }
 
@@ -542,7 +561,7 @@ export default class ChatDriver {
 			}
 
 			let content = ''
-			const Response = this.constructor.Response
+			const Response = this.Response
 
 			if (typeof res.body?.on === 'function') {
 				res.body.on('data', chunk => {
@@ -590,26 +609,6 @@ export default class ChatDriver {
 	 */
 	async getTokens(content) {
 		return encode(content)
-		let endpoint = this.config.tokenizer?.endpoint
-		if (!endpoint) {
-			endpoint = this.config.endpoint ?? this.constructor.DEFAULT_ENDPOINT
-			if (endpoint) endpoint = `${endpoint.replace(/\/$/, '')}/tokenize`
-		}
-		if (!endpoint) throw new Error('No endpoint')
-		const res = await this.fetch(endpoint, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				...this._authHeader(),
-			},
-			body: JSON.stringify({ content, add_special: true, with_pieces: true })
-		})
-		const data = await res.json()
-		this.emit('tokens', { content, res, data })
-		if (!Array.isArray(data.tokens)) {
-			throw new Error(data.error?.message || 'Invalid tokenizer response')
-		}
-		return data.tokens
 	}
 
 	/**
@@ -627,9 +626,9 @@ export default class ChatDriver {
 	 */
 	getMaxTokensOption(tokens = 0) {
 		if (Array.isArray(tokens)) tokens = tokens.length
-		const maxInput = this.config?.maxInput ?? this.model?.maxInput
-		const maxOutput = this.config?.maxOutput ?? this.model?.maxOutput
-		const maxTokens = this.config?.maxTokens ?? this.model?.maxTokens
+		const maxInput = this.config?.maxInput ?? this.model.context.input
+		const maxOutput = this.config?.maxOutput ?? this.model.context.output
+		const maxTokens = this.config?.maxTokens ?? this.model.context.window - tokens
 		if (maxInput && Math.abs(tokens) > maxInput) {
 			const format = new Intl.NumberFormat("en-US").format
 			throw new RangeError(`Tokens count ${format(tokens)} is greater than maxInput ${format(maxInput)}`)
@@ -639,7 +638,7 @@ export default class ChatDriver {
 		} else if (maxTokens) {
 			return maxTokens - Math.abs(tokens)
 		}
-		return this.constructor.DEFAULT_MAX_TOKENS - Math.abs(tokens)
+		return this.DEFAULT_MAX_TOKENS - Math.abs(tokens)
 	}
 
 	/**
@@ -649,7 +648,7 @@ export default class ChatDriver {
 	 *                            and positive if precise number is counted by LLM model.
 	 */
 	async getTokensCount(prompt) {
-		const tokens = await this.getTokens(prompt.toString(true))
+		const tokens = await this.getTokens(prompt.toString())
 		return tokens.length
 	}
 
@@ -672,8 +671,15 @@ export default class ChatDriver {
 		return target
 	}
 
-	async prepareRequest(prompt, { max_tokens = null } = {}) {
-		prompt = this._decodePrompt(prompt)
+	/**
+	 * Prepare request for OpenRouter API
+	 * @param {string|ChatMessage} prompt
+	 * @param {ChatModel|string} [model]
+	 * @param {boolean} [stream=false] - Whether this is a streaming request
+	 * @returns {Promise<object>}
+	 */
+	async prepareRequest(prompt, model = this.model, stream = false) {
+		prompt = this._decodePrompt(ChatMessage.from(prompt))
 		const messages = prompt.toArray()
 		const options = new Options()
 		const defaultOpts = {
@@ -681,19 +687,16 @@ export default class ChatDriver {
 			// @ts-ignore
 			model: this.model?.name || this.constructor.DEFAULT_MODEL
 		}
-		if (null === max_tokens) {
-			const tokens = await this.getTokensCount(prompt)
-			max_tokens = this.getMaxTokensOption(tokens)
-		}
+		const tokens = await this.getTokensCount(prompt)
+		let maxTokens = this.getMaxTokensOption(tokens)
 		const added = await this.getAddedTokens()
-		const maxTokens = max_tokens - added.length
-		const modelOpts = this.model?.options?.toObject?.() ?? this.model?.options ?? {}
+		maxTokens -= added.length
 		const configOpts = {
 			...this.options,
 		}
 		const reqOpts = { max_tokens: maxTokens, messages }
-		/** @note Priority = request, config, model, default */
-		return this.merge(reqOpts, configOpts, modelOpts, defaultOpts)
+		/** @note Priority = request, config, default */
+		return this.merge(reqOpts, configOpts, defaultOpts)
 	}
 
 	/**
@@ -705,7 +708,7 @@ export default class ChatDriver {
 	async getEmbeddings(text, averageVector = false) {
 		let endpoint = this.config.embedder?.endpoint
 		if (!endpoint) {
-			endpoint = this.config.endpoint ?? this.constructor.DEFAULT_ENDPOINT
+			endpoint = this.config.endpoint ?? this.DEFAULT_ENDPOINT
 			if (endpoint) endpoint = `${endpoint.replace(/\/$/, '')}/embeddings`
 		}
 		if (!endpoint) throw new Error('No endpoint')

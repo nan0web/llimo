@@ -1,11 +1,12 @@
 import ChatContext from "../../Chat/Context.js"
+import Response from "../../Chat/Response.js"
 import ReleaserTask from "./Task.js"
 
 export default class ReleaserChatContext extends ChatContext {
 	/** @type {ReleaserTask[]} */
 	tasks = []
 
-	constructor(input = {}) {
+	constructor(input) {
 		super(input)
 		const {
 			tasks = this.tasks
@@ -15,7 +16,7 @@ export default class ReleaserChatContext extends ChatContext {
 
 	/**
 	 * Sets prevResponse
-	 * @param {ChatResponse} response
+	 * @param {Response} response
 	 */
 	setResponse(response) {
 		this.chat.add(response)
@@ -24,7 +25,7 @@ export default class ReleaserChatContext extends ChatContext {
 
 	toJSON() {
 		return {
-			...super.toJSON(),
+			...this,
 			tasks: this.tasks.map(t => t.toJSON())
 		}
 	}

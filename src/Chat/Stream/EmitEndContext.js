@@ -1,6 +1,7 @@
 import Response from "../Response.js"
 import StreamEmitData from "./EmitData.js"
 import StreamOptions from "./Options.js"
+import ChatChunk from "./Chunk.js"
 
 class StreamEmitEndContext extends StreamEmitData {
 	/** @type {StreamOptions} */

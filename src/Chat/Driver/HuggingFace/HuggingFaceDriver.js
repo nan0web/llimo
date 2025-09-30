@@ -11,8 +11,10 @@ import Response from "../../Response.js"
 import ChatMessage from "../../Message.js"
 import HFStreamOptions from "./Stream/Options.js"
 import ChatChunk from "../../Stream/Chunk.js"
+import DB from "@nan0web/db"
+import StreamOptions from "../../Stream/Options.js"
 
-class HuggingFaceDriver extends ChatDriver {
+export default class HuggingFaceDriver extends ChatDriver {
 	static DEFAULT_MODEL = "deepseek-ai/DeepSeek-V3"
 	static DEFAULT_ENDPOINT = "https://api-inference.huggingface.co/models"
 	static MODELS = HuggingFaceModels
@@ -24,19 +26,34 @@ class HuggingFaceDriver extends ChatDriver {
 	/** @type {HFDriverOptions} */
 	options
 
+	get PROVIDERS() {
+		return /** @type {typeof HuggingFaceDriver} */ (this.constructor).PROVIDERS
+	}
+
 	/**
 	 * @returns {HuggingFaceProvider}
 	 */
 	get provider() {
-		return this.constructor.PROVIDERS[this.options.provider]
+		return this.PROVIDERS[this.options.provider]
 	}
 
+	/**
+	 * Creates driver instance
+	 * @param {object} props
+	 * @param {object} [props.auth={}] Auth config.
+	 * @param {ChatModel} props.model Model
+	 * @param {DB} props.db Database
+	 * @param {Partial<HFDriverOptions>} props.options Default options
+	 */
 	constructor(config = {}) {
-		super(config)
 		const {
+			auth = {},
+			model,
+			db,
 			client = null,
 			options = new HFDriverOptions(),
 		} = config
+		super({ auth, model, db, options })
 		this.options = HFDriverOptions.from(options)
 		this.client = client
 	}
@@ -61,8 +78,11 @@ class HuggingFaceDriver extends ChatDriver {
 		}
 		this.client = new InferenceClient(this.auth.apiKey)
 		const self = /** @type {typeof ChatDriver} */ (this.constructor)
-		const model = this.model || self.DEFAULT_MODEL
-		this.model = this.getModel(model)
+		const model = await this.getModel(this.model || self.DEFAULT_MODEL)
+		if (!model) {
+			throw new Error("Model not found")
+		}
+		this.model = model
 	}
 
 	/**
@@ -76,7 +96,10 @@ class HuggingFaceDriver extends ChatDriver {
 		const self = /** @type {typeof ChatDriver} */ (this.constructor)
 		let { id } = context
 		if (!id) id = self.uniqueID()
-		model = this.getModel(model) || model || this.model
+		model = await this.getModel(model) || model || this.model
+		if (!(model instanceof ChatModel)) {
+			throw new Error("Model not found")
+		}
 		if (!this.client) {
 			throw new Error("Driver is not initialized, client is undefined")
 		}
@@ -124,9 +147,9 @@ class HuggingFaceDriver extends ChatDriver {
 				request_id: id,
 				response_id: currentId,
 				usage: currentUsage ?? {},
-				model: currentModel ?? model?.name
+				model: currentModel ?? model.name
 			}
-			const response = this.Response.from(data, model ?? "")
+			const response = this.Response.from(data, model)
 
 			this.emit('end', { ...eventData, data, response })
 			return response
@@ -147,7 +170,7 @@ class HuggingFaceDriver extends ChatDriver {
 	 * @param {*} context
 	 */
 	async *chatCompletionStream(prompt, model, context = {}) {
-		const id = this.constructor.uniqueID()
+		const id = /** @type {typeof HuggingFaceDriver} */ (this.constructor).uniqueID()
 		const startedAt = Date.now()
 		const eventData = { ...context, id, model, prompt, startedAt }
 
@@ -180,12 +203,12 @@ class HuggingFaceDriver extends ChatDriver {
 		}
 	}
 
-	getModels() {
+	async getModels() {
 		return this.provider.models.sort((a, b) => a.name.localeCompare(b.name))
 	}
 
 	getRealModel(model = this.model) {
-		if (!model?.name) return false
+		if (!model.name) return ""
 		const [brand, name] = model.name.split("/")
 		if (name.toLowerCase().startsWith("deepseek-v3")) {
 			return "deepseek-ai/DeepSeek-V3"
@@ -239,23 +262,22 @@ class HuggingFaceDriver extends ChatDriver {
 	/**
 	 * Gets model by name and context.options.provider
 	 * @param {string|ChatModel} model - Model name
-	 * @returns {ChatModel|null} - Model instance
+	 * @returns {Promise<ChatModel|null>} - Model instance
 	 */
-	getModel(model) {
+	async getModel(model) {
 		if (!model) return null
 		const {
 			provider = ""
 		} = this.options ?? {}
-		const PROVIDERS = this.constructor.PROVIDERS
-		const specific = PROVIDERS[provider]
+		const specific = this.PROVIDERS[provider]
 		if (!specific && provider) {
-			throw new Error(`Provider ${provider} not found in ${Object.keys(PROVIDERS).join(", ")}`)
+			throw new Error(`Provider ${provider} not found in ${Object.keys(this.PROVIDERS).join(", ")}`)
 		}
 		let result
-		if (specific) result = specific.find(model.name ?? model)
+		if (specific) result = specific.find(model instanceof ChatModel ? model.name : model)
 		if (result) return result
-		for (const name in PROVIDERS) {
-			const provider = PROVIDERS[name]
+		for (const name in this.PROVIDERS) {
+			const provider = this.PROVIDERS[name]
 			result = provider.find(model)
 			if (result) return result
 		}
@@ -263,10 +285,10 @@ class HuggingFaceDriver extends ChatDriver {
 	}
 
 	/**
-	 * @param {StreamOptions} options
-	 * @returns {Stream<ChatCompletionChunk> | ChatCompletion}
+	 * @param {any} options
+	 * @returns {AsyncGenerator<any, any, any>}
 	 */
-	async createChatCompletionStream(options) {
+	async *createChatCompletionStream(options) {
 		return this.client.chatCompletionStream(options)
 	}
 
@@ -275,7 +297,7 @@ class HuggingFaceDriver extends ChatDriver {
 	 * @param {ChatMessage} chat
 	 * @param {ChatModel} model
 	 * @param {Function} onData callback for each delta chunk
-	 * @returns {Response}
+	 * @returns {Promise<Response>}
 	 */
 	async stream(chat, model, onData = delta => 1) {
 		this.requireClient()
@@ -294,6 +316,3 @@ class HuggingFaceDriver extends ChatDriver {
 		this.emit("end", log)
 	}
 }
-
-// @ts-ignore
-export default HuggingFaceDriver

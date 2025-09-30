@@ -12,6 +12,12 @@ export type ChatEventDataProps = {
      * - The chunk data containing id and choices
      */
     chunk?: ChatChunk | undefined;
+    chunks?: ChatChunk[] | undefined;
+    answer?: ChatChunk[] | undefined;
+    thoughts?: ChatChunk[] | undefined;
+    thinking?: boolean | undefined;
+    delta?: string | undefined;
+    options?: any;
     /**
      * - Timestamp when the chunk was created
      */
@@ -38,6 +44,12 @@ export type ChatEventDataProps = {
  * @property {string} [id] - Chat session ID
  * @property {number} [startedAt] - Timestamp when the chat started
  * @property {ChatChunk} [chunk] - The chunk data containing id and choices
+ * @property {ChatChunk[]} [chunks=[]]
+ * @property {ChatChunk[]} [answer=[]]
+ * @property {ChatChunk[]} [thoughts=[]]
+ * @property {boolean} [thinking=false]
+ * @property {string} [delta=""]
+ * @property {Object} [options={}]
  * @property {number} [created] - Timestamp when the chunk was created
  * @property {string} [model] - Model name used
  * @property {string} [object] - Type of the response object
@@ -65,8 +77,18 @@ declare class ChatEventData {
     chatId: string;
     /** @type {number} */
     startedAt: number;
-    chunk: any;
-    chunks: any;
+    /** @type {ChatChunk} */
+    chunk: ChatChunk;
+    /** @type {ChatChunk[]} */
+    chunks: ChatChunk[];
+    /** @type {ChatChunk[]} */
+    answer: ChatChunk[];
+    /** @type {ChatChunk[]} */
+    thoughts: ChatChunk[];
+    /** @type {boolean} */
+    thinking: boolean;
+    /** @type {Object} */
+    options: any;
     /** @type {string} */
     id: string;
     /** @type {ChatChoice[]} */
@@ -81,6 +103,7 @@ declare class ChatEventData {
     service_tier: string;
     /** @type {string} */
     system_fingerprint: string;
+    delta: string;
 }
 import ChatChunk from "./Chunk.js";
 import ChatChoice from "./Choice.js";

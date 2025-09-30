@@ -1,4 +1,4 @@
-import { ContainerObject, equal, ObjectWithAlias } from "@nan0web/types"
+import { ContainerObject, equal } from "@nan0web/types"
 import stringWidth from "string-width"
 
 /**
@@ -83,7 +83,7 @@ class ChatMessage extends ContainerObject {
 	}
 
 	get systemMessages() {
-		return this.flat().filter(m => m.element.role === ChatMessage.ROLES.system)
+		return this.flat().filter(m => m.role === ChatMessage.ROLES.system)
 	}
 
 	/**
@@ -207,8 +207,8 @@ class ChatMessage extends ContainerObject {
 		if ("string" === typeof log) {
 			log = log.split("\n")
 		}
-		/** @type {ChatMessage} */
-		let root = null
+		/** @type {ChatMessage | undefined} */
+		let root
 		const trash = []
 		let role, current
 		const push = () => {
@@ -243,7 +243,7 @@ class ChatMessage extends ContainerObject {
 			}
 		})
 		push()
-		return root
+		return root ?? new ChatMessage()
 	}
 
 	/**

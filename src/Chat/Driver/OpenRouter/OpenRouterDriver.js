@@ -5,23 +5,7 @@ import { to } from "@nan0web/types"
 import OpenRouterOptions from "./Options.js"
 import StreamOptions from "../../Stream/Options.js"
 import ChatMessage, { ChatModel, Response } from "../../index.js"
-
-class ExtendedOpenAI extends OpenAI {
-	constructor(options) {
-		super(options)
-	}
-
-	async fetchWithTimeout(url, req, timeout, controller) {
-		return await super.fetchWithTimeout(url, req, timeout, controller)
-	}
-
-	async prepareRequest(
-		request,
-		{ url, options } = {},
-	) {
-		return await super.prepareRequest(request, { url, options })
-	}
-}
+import DB from "@nan0web/db"
 
 /**
  * Driver for OpenRouter API using official SDK with compatible interface
@@ -36,6 +20,7 @@ class ExtendedOpenAI extends OpenAI {
 class OpenRouterDriver extends ChatDriver {
 	static DEFAULT_ENDPOINT = "https://openrouter.ai/api/v1"
 	static DEFAULT_MODEL = "qwen/qwen2.5-7b-instruct"
+	/** @type {Record<string, string>} */
 	static DEFAULT_HEADERS = {
 		// "HTTP-Referer": "https://nan0web.app",
 		// "X-Title": "nan0web"
@@ -46,12 +31,23 @@ class OpenRouterDriver extends ChatDriver {
 	/** @type {OpenRouterOptions} */
 	options
 
-	constructor(config = {}) {
-		super(config)
+	/**
+	 * @param {object} config
+	 * @param {OpenAI} config.api
+	 * @param {Partial<OpenRouterOptions>} [config.options]
+	 * @param {Object} [config.auth]
+	 * @param {DB} config.db
+	 * @param {ChatModel} config.model
+	 */
+	constructor(config) {
 		const {
-			api = null,
+			api,
 			options = new OpenRouterOptions(),
+			auth = {},
+			db,
+			model,
 		} = config
+		super({ auth, db, model, options })
 
 		this.api = api
 		this.options = OpenRouterOptions.from(options)
@@ -69,7 +65,7 @@ class OpenRouterDriver extends ChatDriver {
 		let { id } = context
 		if (!id) id = self.uniqueID()
 
-		model = this.getModel(model) || model || this.model
+		model = await this.getModel(model) || model || this.model
 		if (!model) {
 			throw new Error("No model specified for completion")
 		}
@@ -102,10 +98,9 @@ class OpenRouterDriver extends ChatDriver {
 				response_id: response.id,
 				usage: response.usage,
 				model: response.model,
-				prompt_timings: response.prompt_timings
 			}
 
-			const responseObj = this.constructor.Response.from(data, model)
+			const responseObj = this.Response.from(data, ChatModel.from(model))
 
 			this.emit('end', { ...eventData, data, response: responseObj })
 			return responseObj
@@ -119,15 +114,15 @@ class OpenRouterDriver extends ChatDriver {
 	/**
 	 * Prepare request for OpenRouter API
 	 * @param {string|ChatMessage} prompt
-	 * @param {ChatModel|string} model
+	 * @param {ChatModel|string} [model]
 	 * @param {boolean} [stream=false] - Whether this is a streaming request
-	 * @returns {object}
+	 * @returns {Promise<object>}
 	 */
-	async prepareRequest(prompt, model, stream = false) {
-		if (!model) model = this.model
+	async prepareRequest(prompt, model = this.model, stream = false) {
 		if (typeof model === "string") {
-			model = this.getModel(model)
+			model = await this.getModel(model) || ""
 		}
+		model = ChatModel.from(model)
 
 		return {
 			model: model.name,
@@ -150,7 +145,7 @@ class OpenRouterDriver extends ChatDriver {
 
 		const endpoint = this.options.endpoint || this.DEFAULT_ENDPOINT
 
-		this.api = new ExtendedOpenAI({
+		this.api = new OpenAI({
 			apiKey: this.auth.apiKey,
 			baseURL: endpoint,
 			defaultHeaders: {
@@ -163,7 +158,7 @@ class OpenRouterDriver extends ChatDriver {
 
 	async getModels() {
 		const list = await this.api.models.list()
-		const models = list.data.map(a => Model.from(a))
+		const models = list.data.map(a => ChatModel.from(a))
 		return models.sort((a, b) => a.name.localeCompare(b.name))
 	}
 
@@ -179,13 +174,14 @@ class OpenRouterDriver extends ChatDriver {
 	}
 
 	/**
-	 * @param {StreamOptions} options
-	 * @returns {Promise<Stream<ChatCompletionChunk> | ChatCompletion>}
+	 * @param {any} options
+	 * @returns {AsyncGenerator<any, any, any>}
 	 */
-	async createChatCompletionStream(options) {
+	async *createChatCompletionStream(options) {
 		if (!this.api) {
 			await this.init()
 		}
+		// @ts-ignore
 		return this.api.chat.completions.create(options)
 	}
 }

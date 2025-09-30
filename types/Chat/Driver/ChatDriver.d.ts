@@ -41,16 +41,14 @@ export default class ChatDriver {
      * Creates driver instance
      * @param {object} props
      * @param {object} [props.auth={}] Auth config.
-     * @param {Model} props.model Model
+     * @param {ChatModel} props.model Model
      * @param {DB} props.db Database
-     * @param {string} props.name Name
      * @param {Partial<DriverOptions>} props.options Default options
      */
     constructor(props: {
         auth?: object;
-        model: Model;
+        model: ChatModel;
         db: DB;
-        name: string;
         options: Partial<DriverOptions>;
     });
     /**
@@ -60,8 +58,8 @@ export default class ChatDriver {
     config: object;
     /** @type {object} */
     auth: object;
-    /** @type {Model} */
-    model: Model;
+    /** @type {ChatModel} */
+    model: ChatModel;
     /** @type {DB} */
     db: DB;
     /** @type {DriverOptions} */
@@ -83,6 +81,10 @@ export default class ChatDriver {
      */
     get DEFAULT_MODEL(): string;
     /**
+     * @returns {number}
+     */
+    get DEFAULT_MAX_TOKENS(): number;
+    /**
      * @returns {Record<string, string>}
      */
     get DEFAULT_HEADERS(): Record<string, string>;
@@ -90,6 +92,10 @@ export default class ChatDriver {
      * @returns {Record<string, object>}
      */
     get MODELS(): Record<string, any>;
+    /**
+     * @returns {number}
+     */
+    get LOG_STREAM_INTERVAL(): number;
     toPublic(): any;
     toString(): string;
     requireModel(): void;
@@ -107,19 +113,19 @@ export default class ChatDriver {
      * Wrapper for fetch requests
      * @param {string} url Request URL
      * @param {object} req Request options
-     * @returns {Promise<NodeResponse>} Fetch response
+     * @returns {Promise<ResponseMessage>} Fetch response
      */
-    fetch(url: string, req: object): Promise<NodeResponse>;
+    fetch(url: string, req: object): Promise<ResponseMessage>;
     /**
      * Gets model by name
-     * @param {string|Model} model - Model name
-     * @returns {Promise<Model|null>} - Model instance
+     * @param {string|ChatModel} model - Model name
+     * @returns {Promise<ChatModel|null>} - Model instance
      */
-    getModel(model: string | Model): Promise<Model | null>;
+    getModel(model: string | ChatModel): Promise<ChatModel | null>;
     /**
-     * @returns {Promise<Model[]>}
+     * @returns {Promise<ChatModel[]>}
      */
-    getModels(): Promise<Model[]>;
+    getModels(): Promise<ChatModel[]>;
     getRealModel(): string;
     /**
      * @param {StreamLog} log
@@ -148,11 +154,11 @@ export default class ChatDriver {
     /**
      * Completes prompt using LLM model
      * @param {string|ChatMessage} prompt Input prompt
-     * @param {string|Model} model Model to use
+     * @param {string|ChatModel} model Model to use
      * @param {object} [context={}] Context for events
-     * @returns {Promise<Response>} Response
+     * @returns {Promise<Response | undefined>} Response
      */
-    complete(prompt: string | ChatMessage, model: string | Model, context?: object): Promise<Response>;
+    complete(prompt: string | ChatMessage, model: string | ChatModel, context?: object): Promise<Response | undefined>;
     /**
      * @param {Array<{ role: string, content: string }>} messages
      * @returns {StreamOptions}
@@ -163,11 +169,11 @@ export default class ChatDriver {
     }>): StreamOptions;
     /**
      * @param {ChatMessage} chat
-     * @param {Model} model
+     * @param {ChatModel} model
      * @param {Function} onData
      * @returns {Promise<Response>}
      */
-    stream(chat: ChatMessage, model: Model, onData?: Function): Promise<Response>;
+    stream(chat: ChatMessage, model: ChatModel, onData?: Function): Promise<Response>;
     /**
      * Gets authorization headers
      * @returns {object} Headers object
@@ -192,28 +198,28 @@ export default class ChatDriver {
     _chatCompletionEndpoint(): string;
     /**
      * @param {StreamOptions} options
-     * @returns {Stream<ChatCompletionChunk> | ChatCompletion}
+     * @returns {AsyncGenerator<any, any, any>}
      */
-    createChatCompletionStream(options: StreamOptions): Stream<ChatCompletionChunk> | ChatCompletion;
+    createChatCompletionStream(options: StreamOptions): AsyncGenerator<any, any, any>;
     /**
      * Prepares chat completion request
-     * @param {ChatMessage|function} prompt ChatMessage or function
+     * @param {ChatMessage|string} prompt ChatMessage or function
      * @returns {Promise<object>} Request options for fetch()
      */
-    _chatCompletionRequest(prompt: ChatMessage | Function): Promise<object>;
+    _chatCompletionRequest(prompt: ChatMessage | string): Promise<object>;
     /**
      * Internal completion method
      * @param {string|ChatMessage} prompt Input prompt
-     * @param {Model} model Model to use
+     * @param {ChatModel} model Model to use
      * @param {object} [context={}] Context for events
-     * @returns {Promise<Response>} Response
+     * @returns {Promise<Response | undefined>} Response
      * @emits start {Object} Before starting request
      * @emits completeInterval {Object} During request (every 99ms)
      * @emits data {Object} On receiving data chunk
      * @emits end {Response} On completion
      * @emits error {Error} On error
      */
-    _complete(prompt: string | ChatMessage, model: Model, context?: object): Promise<Response>;
+    _complete(prompt: string | ChatMessage, model: ChatModel, context?: object): Promise<Response | undefined>;
     /**
      * Gets tokens for content
      * @param {string} content Input content
@@ -245,9 +251,14 @@ export default class ChatDriver {
      * @returns {Object} The merged result
     */
     merge(...sources: any[]): any;
-    prepareRequest(prompt: any, { max_tokens }?: {
-        max_tokens?: null | undefined;
-    }): Promise<any>;
+    /**
+     * Prepare request for OpenRouter API
+     * @param {string|ChatMessage} prompt
+     * @param {ChatModel|string} [model]
+     * @param {boolean} [stream=false] - Whether this is a streaming request
+     * @returns {Promise<object>}
+     */
+    prepareRequest(prompt: string | ChatMessage, model?: string | ChatModel | undefined, stream?: boolean | undefined): Promise<object>;
     /**
      * Gets embeddings for text
      * @param {string|string[]} text Input text or array
@@ -288,7 +299,7 @@ export default class ChatDriver {
      */
     _parseChatCompletionResponseText(text: string, context?: object): object | null;
 }
-import Model from "../Model/Model.js";
+import ChatModel from "../Model/Model.js";
 import DB from "@nan0web/db";
 import DriverOptions from "./Options.js";
 import Response from "../Response.js";

@@ -14,7 +14,7 @@ export default class ChatContext {
      * @param {string} [input.streamFile]
      * @param {boolean} [input.cancelled]
      */
-    constructor(input?: {
+    constructor(input: {
         cwd?: string | undefined;
         model?: ChatModel | undefined;
         provider?: ChatProvider | undefined;
@@ -32,14 +32,18 @@ export default class ChatContext {
     cwd: string;
     /** @type {ChatModel} */
     model: ChatModel;
-    /** @type {ChatProvider} */
-    provider: ChatProvider;
+    /** @type {ChatProvider | undefined} */
+    provider: ChatProvider | undefined;
     /** @type {ChatAgent} */
     agent: ChatAgent;
+    /** @type {ChatMessage} */
+    prompt: ChatMessage;
     /** @type {ChatMessage} */
     chat: ChatMessage;
     /** @type {ChatResponse} */
     prevResponse: ChatResponse;
+    /** @type {string} */
+    input: string;
     /** @type {string} */
     inputFile: string;
     /** @type {string} */
@@ -50,15 +54,17 @@ export default class ChatContext {
     responseFile: string;
     /** @type {string} */
     streamFile: string;
-    /** @type {boolean} */
-    cancelled: boolean;
-    /**
-     * @returns {number}
-     */
+    /** @returns {number} */
     get loopCount(): number;
+    get cancelled(): boolean;
     cancel(): void;
-    setResponse(response: any): void;
+    /**
+     * Sets prevResponse
+     * @param {ChatResponse} response
+     */
+    setResponse(response: ChatResponse): void;
     get history(): ChatMessage[];
+    #private;
 }
 import ChatModel from "../../Chat/Model/Model.js";
 import ChatProvider from "../../Chat/Provider.js";

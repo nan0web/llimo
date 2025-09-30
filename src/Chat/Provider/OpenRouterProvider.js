@@ -1,3 +1,4 @@
+import ChatDriver from "../Driver/ChatDriver.js"
 import ChatProvider from "../Provider.js"
 
 class OpenRouterProvider extends ChatProvider {
@@ -16,16 +17,17 @@ class OpenRouterProvider extends ChatProvider {
 
 	/**
 	 * @param {object} props
-	 * @param {string} props.name
-	 * @param {string} props.slug
-	 * @param {boolean} props.may_log_prompts
-	 * @param {boolean} props.may_train_on_data
-	 * @param {boolean} props.moderated_by_openrouter
-	 * @param {string} props.privacy_policy_url
-	 * @param {string} props.terms_of_service_url
-	 * @param {string} props.status_page_url
+	 * @param {ChatDriver} props.driver
+	 * @param {string} [props.name=""]
+	 * @param {string} [props.slug=""]
+	 * @param {boolean} [props.may_log_prompts=false]
+	 * @param {boolean} [props.may_train_on_data=false]
+	 * @param {boolean} [props.moderated_by_openrouter=false]
+	 * @param {string} [props.privacy_policy_url=""]
+	 * @param {string} [props.terms_of_service_url=""]
+	 * @param {string} [props.status_page_url=""]
 	 */
-	constructor(props = {}) {
+	constructor(props) {
 		super(props)
 		const {
 			may_log_prompts = false,
@@ -54,6 +56,10 @@ class OpenRouterProvider extends ChatProvider {
 			`Status: ${this.status_page_url}`
 	}
 
+	/**
+	 * @param {any} props
+	 * @returns {OpenRouterProvider}
+	 */
 	static from(props = {}) {
 		if (props instanceof OpenRouterProvider) return props
 		return new this(props)

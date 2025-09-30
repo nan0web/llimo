@@ -22,7 +22,7 @@ async function main() {
 	});
 
 	for await (const chunk of stream) {
-		process.stdout.write(chunk.choices[0]?.delta?.content || '');
+		process.stdout.write(chunk.choices?.[0]?.delta?.content || '');
 	}
 }
 

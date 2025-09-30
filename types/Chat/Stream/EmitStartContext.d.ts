@@ -1,6 +1,6 @@
 export default StreamEmitStartContext;
 declare class StreamEmitStartContext extends StreamEmitData {
-    constructor(props?: {});
+    constructor(props: any);
     /** @type {StreamOptions} */
     options: StreamOptions;
     /** @type {ChatMessage} */
@@ -9,7 +9,6 @@ declare class StreamEmitStartContext extends StreamEmitData {
     usage: Usage;
     getHash(len?: number): string;
     get uri(): string;
-    add(context: any): void;
 }
 import StreamEmitData from "./EmitData.js";
 import StreamOptions from "./Options.js";

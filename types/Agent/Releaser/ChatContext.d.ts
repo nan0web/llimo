@@ -1,13 +1,20 @@
 export default class ReleaserChatContext extends ChatContext {
-    constructor(input?: {});
+    constructor(input: any);
     /** @type {ReleaserTask[]} */
     tasks: ReleaserTask[];
     /**
      * Sets prevResponse
-     * @param {ChatResponse} response
+     * @param {Response} response
      */
-    setResponse(response: ChatResponse): void;
-    toJSON(): any;
+    setResponse(response: Response): void;
+    toJSON(): this & {
+        tasks: {
+            id: string;
+            desc: string;
+            status: string;
+        }[];
+    };
 }
 import ChatContext from "../../Chat/Context.js";
 import ReleaserTask from "./Task.js";
+import Response from "../../Chat/Response.js";

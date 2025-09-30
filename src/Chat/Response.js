@@ -33,9 +33,9 @@ class ChatResponse extends ChatMessage {
 
 	/**
 	 * @param {Partial<ChatResponse>} input
-	 * @param {string | object} input
+	 * @param {string | ChatModel} [model]
 	 */
-	constructor(input) {
+	constructor(input, model) {
 		if ("string" === typeof input) {
 			input = { content: input }
 		}
@@ -44,7 +44,7 @@ class ChatResponse extends ChatMessage {
 			thought = "",
 			request_id = "",
 			response_id = "",
-			model = "",
+			model: modelName = "",
 			usage = new ChatUsage(),
 			finish_reason = "",
 			complete = false,
@@ -54,13 +54,22 @@ class ChatResponse extends ChatMessage {
 		this.thought = thought
 		this.request_id = request_id
 		this.response_id = response_id
-		this.model = model
+		this.model = modelName
 		this.usage = ChatUsage.from(usage)
 		this.finish_reason = finish_reason
 		this.complete = complete
 		this.spentMs = spentMs
 		this.startedAt = new Date(startedAt)
 		this.sanitize()
+		if (model) {
+			if (!(model instanceof ChatModel)) {
+				throw new Error("Model must be ChatModel instance")
+			}
+			this.model = model.name
+			if (this.usage) {
+				model.calc(this.usage)
+			}
+		}
 	}
 
 	/**
@@ -83,7 +92,7 @@ class ChatResponse extends ChatMessage {
 				}
 			}
 		}
-		const response = new this(input)
+		const response = new this(input, model)
 		if (model && response.usage) {
 			model.calc(response.usage)
 		}

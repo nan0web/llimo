@@ -5,7 +5,7 @@ export default class CurrencyCalculatorRelease {
 	 * Creates a scenario for releasing a currency calculator feature.
 	 * Simulates at least 6 steps including planning, implementation, testing,
 	 * error handling, and release summary.
-	 * @returns {Array<{step: number, db: DB, description: string}>}
+	 * @returns {Promise<Array<{step: number, db: DB, description: string}>>}
 	 */
 	static async create() {
 		const root = new DB({

@@ -20,32 +20,32 @@ class StreamEmitDataContext extends StreamEmitData {
 
 	/**
 	 * @param {object} props
-	 * @type {StreamOptions} options
-	 * @type {ChatChunk} chunk
-	 * @type {ChatChunk[]} chunks
-	 * @type {ChatChunk[]} answer
-	 * @type {ChatChunk[]} thoughts
-	 * @type {boolean} thinking
-	 * @type {string} delta
+	 * @param {StreamOptions} [props.options]
+	 * @param {ChatChunk} [props.chunk]
+	 * @param {ChatChunk[]} [props.chunks]
+	 * @param {ChatChunk[]} [props.answer]
+	 * @param {ChatChunk[]} [props.thoughts]
+	 * @param {boolean} [props.thinking]
+	 * @param {string} [props.delta]
 	 */
 	constructor(props = {}) {
 		super(props)
 		const {
 			options = new StreamOptions(),
-			chunk,
+			chunk = {},
 			chunks = [],
 			answer = [],
 			thoughts = [],
-			thinking,
-			delta,
+			thinking = false,
+			delta = "",
 		} = props
 		this.options = options
-		this.chunk = chunk
+		this.chunk = ChatChunk.from(chunk)
 		this.chunks = chunks
 		this.answer = answer
 		this.thoughts = thoughts
-		this.thinking = thinking
-		this.delta = delta
+		this.thinking = Boolean(thinking)
+		this.delta = String(delta)
 	}
 }
 

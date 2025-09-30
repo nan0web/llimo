@@ -14,4 +14,5 @@ declare class StreamEmitEndContext extends StreamEmitData {
 }
 import StreamEmitData from "./EmitData.js";
 import StreamOptions from "./Options.js";
+import ChatChunk from "./Chunk.js";
 import Response from "../Response.js";

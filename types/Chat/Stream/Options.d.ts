@@ -2,25 +2,25 @@ export default StreamOptions;
 declare class StreamOptions {
     static from(props: any): StreamOptions;
     /**
-     * @param {object} props
-     * @param {string} props.model
-     * @param {Array<{role: string, content: string}>} props.messages
-     * @param {boolean} props.stream
-     * @param {number} props.temperature
-     * @param {number} props.max_tokens
-     * @param {number} props.top_p
+     * @param {Object} [input]
+     * @param {string} [input.model=""]
+     * @param {Array<{role: string, content: string}>} [input.messages]
+     * @param {boolean} [input.stream]
+     * @param {number} [input.temperature]
+     * @param {number} [input.max_tokens]
+     * @param {number} [input.top_p]
      */
-    constructor(props?: {
-        model: string;
-        messages: Array<{
+    constructor(input?: {
+        model?: string | undefined;
+        messages?: {
             role: string;
             content: string;
-        }>;
-        stream: boolean;
-        temperature: number;
-        max_tokens: number;
-        top_p: number;
-    });
+        }[] | undefined;
+        stream?: boolean | undefined;
+        temperature?: number | undefined;
+        max_tokens?: number | undefined;
+        top_p?: number | undefined;
+    } | undefined);
     /** @type {string} */
     model: string;
     /** @type {Array<{role: string, content: string}>} */
@@ -32,9 +32,9 @@ declare class StreamOptions {
     stream: boolean;
     /** @type {number | undefined} */
     temperature: number | undefined;
-    /** @type {number} */
-    max_tokens: number;
-    /** @type {number} */
-    top_p: number;
+    /** @type {number | undefined} */
+    max_tokens: number | undefined;
+    /** @type {number | undefined} */
+    top_p: number | undefined;
     #private;
 }

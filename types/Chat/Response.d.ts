@@ -18,9 +18,9 @@ declare class ChatResponse extends ChatMessage {
     static fromLog(log: any): ChatResponse;
     /**
      * @param {Partial<ChatResponse>} input
-     * @param {string | object} input
+     * @param {string | ChatModel} [model]
      */
-    constructor(input: Partial<ChatResponse>);
+    constructor(input: Partial<ChatResponse>, model?: string | ChatModel | undefined);
     /** @type {string} **/
     thought: string;
     /** @type {string} **/

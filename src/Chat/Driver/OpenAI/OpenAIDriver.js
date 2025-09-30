@@ -2,6 +2,7 @@ import OpenAI from "openai"
 import ChatDriver from "../ChatDriver.js"
 import OpenAIModels from "./models.js"
 import StreamOptions from "../../Stream/Options.js"
+import { Stream } from "openai/core/streaming.js"
 
 /**
  * Driver for OpenAI API using official SDK
@@ -20,18 +21,18 @@ class OpenAIDriver extends ChatDriver {
 	}
 
 	/**
-	 * @param {StreamOptions} options
-	 * @returns {Stream<ChatCompletionChunk> | ChatCompletion}
+	 * @param {any} options
+	 * @returns {AsyncGenerator<any, any, any>}
 	 */
-	async createChatCompletionStream(options) {
+	async *createChatCompletionStream(options) {
 		return this.api.chat.completions.create(options)
 	}
 
-	getModels() {
+	async getModels() {
 		return Object.values(OpenAIModels)
 	}
 
-	getModel(modelId) {
+	async getModel(modelId) {
 		return OpenAIModels[modelId]
 	}
 
@@ -51,7 +52,6 @@ class OpenAIDriver extends ChatDriver {
 		const [endYear, endMonth, endDay] = end
 		const usage = db.find((uri) => {
 			if (!uri.startsWith(`usage/`)) return false
-			this.isInDateRange()
 			const [_, year, month, day] = uri.split('/')
 			if (!(year >= startYear && year <= endYear)) return false
 			if (!(month >= startMonth && month <= endMonth)) return false
@@ -59,12 +59,6 @@ class OpenAIDriver extends ChatDriver {
 			return true
 		})
 		return usage
-	}
-
-	async getPricingTable() {
-		const usage = await this.getBillingUsage()
-		const sub = await this.getBillingSubscription()
-		return { usage, subscription: sub }
 	}
 }
 

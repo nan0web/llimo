@@ -10,7 +10,7 @@ class StreamEmitStartContext extends StreamEmitData {
 	chat
 	/** @type {Usage} */
 	usage
-	constructor(props = {}) {
+	constructor(props) {
 		super(props)
 		const {
 			options = new StreamOptions(),
@@ -28,7 +28,7 @@ class StreamEmitStartContext extends StreamEmitData {
 			this.options.top_p,
 			this.options.messages.map(m => String(`${m.role}:\n${m.content}`).replace(/\s+/g, ""))
 		].join("")
-		const result = ""
+		let result = ""
 		for (let i = 0; i < len; i++) {
 			const step = Math.floor(body.length / len)
 			const index = i * step + i % len
@@ -47,9 +47,6 @@ class StreamEmitStartContext extends StreamEmitData {
 			t.slice(0, 2),
 			t.slice(0, 8).replaceAll(":", "") + "-" + this.getHash()
 		].join("/")
-	}
-	add(context) {
-		this.dataContext.push(context)
 	}
 }
 

@@ -7,6 +7,12 @@ import ChatChunk from "./Chunk.js"
  * @property {string} [id] - Chat session ID
  * @property {number} [startedAt] - Timestamp when the chat started
  * @property {ChatChunk} [chunk] - The chunk data containing id and choices
+ * @property {ChatChunk[]} [chunks=[]]
+ * @property {ChatChunk[]} [answer=[]]
+ * @property {ChatChunk[]} [thoughts=[]]
+ * @property {boolean} [thinking=false]
+ * @property {string} [delta=""]
+ * @property {Object} [options={}]
  * @property {number} [created] - Timestamp when the chunk was created
  * @property {string} [model] - Model name used
  * @property {string} [object] - Type of the response object
@@ -23,8 +29,18 @@ class ChatEventData {
 	/** @type {number} */
 	startedAt
 
+	/** @type {ChatChunk} */
 	chunk
+	/** @type {ChatChunk[]} */
 	chunks
+	/** @type {ChatChunk[]} */
+	answer
+	/** @type {ChatChunk[]} */
+	thoughts
+	/** @type {boolean} */
+	thinking
+	/** @type {Object} */
+	options = {}
 
 	/** @type {string} */
 	id
@@ -52,11 +68,11 @@ class ChatEventData {
 
 			chunk = {},
 			chunks = [],
-			answer,
-			thoughts,
-			thinking,
-			delta,
-			options,
+			answer = [],
+			thoughts = [],
+			thinking = false,
+			delta = "",
+			options = {},
 
 			id = "",
 			created = 0,
@@ -76,7 +92,13 @@ class ChatEventData {
 		this.model = String(model)
 		this.object = String(object)
 		this.service_tier = String(service_tier)
+		this.chunk = ChatChunk.from(chunk)
 		this.chunks = chunks
+		this.answer = answer
+		this.thoughts = thoughts
+		this.thinking = Boolean(thinking)
+		this.delta = String(delta)
+		this.options = options
 		this.system_fingerprint = String(system_fingerprint)
 	}
 

@@ -29,10 +29,10 @@ class ChatEmitData {
 	 */
 	constructor(props = {}) {
 		const {
-			chatId,
+			id,
 			startedAt,
 		} = props
-		this.chatId = String(chatId)
+		this.chatId = String(id)
 		this.startedAt = Number(startedAt)
 	}
 

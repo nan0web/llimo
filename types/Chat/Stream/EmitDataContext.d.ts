@@ -2,15 +2,23 @@ export default StreamEmitDataContext;
 declare class StreamEmitDataContext extends StreamEmitData {
     /**
      * @param {object} props
-     * @type {StreamOptions} options
-     * @type {ChatChunk} chunk
-     * @type {ChatChunk[]} chunks
-     * @type {ChatChunk[]} answer
-     * @type {ChatChunk[]} thoughts
-     * @type {boolean} thinking
-     * @type {string} delta
+     * @param {StreamOptions} [props.options]
+     * @param {ChatChunk} [props.chunk]
+     * @param {ChatChunk[]} [props.chunks]
+     * @param {ChatChunk[]} [props.answer]
+     * @param {ChatChunk[]} [props.thoughts]
+     * @param {boolean} [props.thinking]
+     * @param {string} [props.delta]
      */
-    constructor(props?: object);
+    constructor(props?: {
+        options?: StreamOptions | undefined;
+        chunk?: ChatChunk | undefined;
+        chunks?: ChatChunk[] | undefined;
+        answer?: ChatChunk[] | undefined;
+        thoughts?: ChatChunk[] | undefined;
+        thinking?: boolean | undefined;
+        delta?: string | undefined;
+    });
     /** @type {StreamOptions} */
     options: StreamOptions;
     /** @type {ChatChunk} */

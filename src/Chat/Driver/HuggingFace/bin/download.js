@@ -1,4 +1,4 @@
-import fetch from "nanoweb-http"
+import fetch from "@nan0web/http-node"
 import { NonEmptyObject, to } from "@nan0web/types"
 import HuggingFaceProvider from "../HuggingFaceProvider.js"
 import HuggingFaceModel from "../HuggingFaceModel.js"
@@ -38,7 +38,7 @@ async function fetchProviders(url) {
 			author: el.model.authorData.name,
 			validatedAt: el.lastValidationTimestamp,
 		})
-		provider.models.push(model)
+		provider?.models.push(model)
 	})
 	return { providers, authors }
 }
@@ -67,4 +67,3 @@ async function main() {
 }
 
 main().catch(console.error)
-

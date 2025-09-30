@@ -4,12 +4,12 @@ export default class ReleaseImitation {
      * Each step simulates progression: init setup, task loading, processing, error handling,
      * completion, and post-release summary. Uses predefined files in a DB structure.
      * Steps are extracted via db.extract(step + "/") for modular simulation.
-     * @returns {Array<{step: number, db: DB, description: string}>}
+     * @returns {Promise<Array<{step: number, db: DB, description: string}>>}
      */
-    static create(): Array<{
+    static create(): Promise<Array<{
         step: number;
         db: DB;
         description: string;
-    }>;
+    }>>;
 }
 import DB from "@nan0web/db";

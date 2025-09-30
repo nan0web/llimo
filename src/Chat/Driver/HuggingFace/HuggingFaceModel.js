@@ -1,9 +1,10 @@
-import Model from "../../Model/Model.js"
+import ModelFeatures from "../../Model/Features.js"
+import ChatModel from "../../Model/Model.js"
 
-class HuggingFaceModel extends Model {
+class HuggingFaceModel extends ChatModel {
 	/** @type {string} */
 	status
-	/** @type {Record<string, boolean>} */
+	/** @type {ModelFeatures} */
 	features
 	/** @type {Record<string, number>} */
 	performance

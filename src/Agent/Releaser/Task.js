@@ -17,7 +17,7 @@ export default class ReleaserTask {
 		} = input
 		this.id = String(id)
 		this.desc = String(desc)
-		this.status = Enum(...Object.values(this.constructor.STATUSES))(status)
+		this.status = Enum(...Object.values(ReleaserTask.STATUSES))(status)
 	}
 
 	/**

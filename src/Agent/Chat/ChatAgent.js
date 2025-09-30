@@ -2,21 +2,20 @@ import micromatch from "micromatch"
 import { empty } from "@nan0web/types"
 import DB from "@nan0web/db"
 import event from "@nan0web/event"
-import Markdown, { InterceptorInput, MDList } from "@nan0web/markdown"
-
-import URIPattern from "./URIPattern.js"
-import systemMd from "./system.md/index.js"
-import App from "../../App.js"
+import ChatContext from "./ChatContext.js"
 import ChatMessage from "../../Chat/Message.js"
 import Response from "../../Chat/Response.js"
-import ChatContext from "../../Chat/Context.js"
+import Markdown, { InterceptorInput, MDList } from "@nan0web/markdown"
+import URIPattern from "./URIPattern.js"
 
 export default class ChatAgent {
 	static ID = "agent-base"
 	static MESSAGES = {
 		goodbye: ["", "🙏 Take care!", ""],
 	}
-	static SYSTEM_MD = systemMd
+	static SYSTEM_MD = `Instructions
+You are a good assistant.`
+
 	static LOOP_DEFAULTS = {
 		maxLoops: Number.MAX_SAFE_INTEGER,
 	}
@@ -31,7 +30,7 @@ export default class ChatAgent {
 	name = "Base Agent v1"
 	/** @type {string} */
 	desc = "Base agent with optional loop; extend for multi-turn tasks"
-	/** @type {App} */
+	/** @type {import("../../App.js").default} */
 	app
 	/** @type {DB} */
 	db
@@ -44,13 +43,13 @@ export default class ChatAgent {
 	 * @param {string[]} [props.outputPipeline=[]]
 	 * @param {string} [props.name="Base Agent v1"]
 	 * @param {string} [props.desc="Base agent with optional loop; extend for multi-turn tasks"]
-	 * @param {App} props.app
+	 * @param {import("../../App.js").default} props.app
 	 * @param {DB} props.db
 	 * @param {DB} props.fs
 	 */
 	constructor(props) {
 		this.bus = event()
-		const { inputPipeline, outputPipeline, name, desc, app = new App(), db, fs } = props
+		const { inputPipeline, outputPipeline, name, desc, app, db, fs } = props
 		this.inputPipeline = inputPipeline || this.inputPipeline
 		this.outputPipeline = outputPipeline || this.outputPipeline
 		this.name = name || this.name
@@ -67,7 +66,7 @@ export default class ChatAgent {
 
 	// Core: run() with loop
 	async run(
-		context = new ChatContext(),
+		context = new ChatContext({ agent: this }),
 		loopOpts = {
 			/**
 			 * @param {ChatContext} context
@@ -82,21 +81,21 @@ export default class ChatAgent {
 		const driver = this.app.chatProvider.driver
 		await driver.init()
 		/**
-		 * @type {import("@nan0web/event/types/types/index.js").EventListener}
+		 * @type {(event) => Promise<void>}
 		 */
 		const onLoopStart = async (event) => {
 			this.bus.emit("loop.start", { event, context })
 		}
 		/**
-		 * @type {import("@nan0web/event/types/types/index.js").EventListener}
+		 * @type {(event) => Promise<void>}
 		 */
-		const onLoopData = (event) => {
+		const onLoopData = async (event) => {
 			this.bus.emit("loop.data", { event, context })
 		}
 		/**
-		 * @type {import("@nan0web/event/types/types/index.js").EventListener}
+		 * @type {(event) => Promise<void>}
 		 */
-		const onLoopEnd = (event) => {
+		const onLoopEnd = async (event) => {
 			this.bus.emit("loop.end", { event, context })
 		}
 		driver.on("start", onLoopStart)
@@ -104,12 +103,10 @@ export default class ChatAgent {
 		driver.on("end", onLoopEnd)
 
 		// Optional: ESC listener (for CLI View integration)
-		if (this.app.view?.onKey) {
-			this.app.view.onKey("escape", () => {
-				this.bus.emit("loop.cancel", context)
-				context.cancel()
-			})
-		}
+		this.app.view.stdin.on("escape", () => {
+			this.bus.emit("loop.cancel", context)
+			context.cancel()
+		})
 
 		try {
 			while (

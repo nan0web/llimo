@@ -1,5 +1,4 @@
-export default HuggingFaceDriver;
-declare class HuggingFaceDriver extends ChatDriver {
+export default class HuggingFaceDriver extends ChatDriver {
     static MODELS: {
         "deepseek-r1-qwen3-8b-v4-small": any;
     };
@@ -9,11 +8,24 @@ declare class HuggingFaceDriver extends ChatDriver {
         novita: HuggingFaceProvider;
     };
     static PROVIDERS_OR_POLICIES: readonly ["black-forest-labs", "cerebras", "cohere", "fal-ai", "featherless-ai", "fireworks-ai", "groq", "hf-inference", "hyperbolic", "nebius", "novita", "nscale", "openai", "ovhcloud", "publicai", "replicate", "sambanova", "scaleway", "together", "zai-org", "auto"];
+    /**
+     * Creates driver instance
+     * @param {object} props
+     * @param {object} [props.auth={}] Auth config.
+     * @param {ChatModel} props.model Model
+     * @param {DB} props.db Database
+     * @param {Partial<HFDriverOptions>} props.options Default options
+     */
     constructor(config?: {});
     /** @type {InferenceClient} */
     client: InferenceClient;
     /** @type {HFDriverOptions} */
     options: HFDriverOptions;
+    get PROVIDERS(): {
+        cerebras: HuggingFaceProvider;
+        cohere: HuggingFaceProvider;
+        novita: HuggingFaceProvider;
+    };
     /**
      * @returns {HuggingFaceProvider}
      */
@@ -44,29 +56,15 @@ declare class HuggingFaceDriver extends ChatDriver {
      * @param {*} context
      */
     chatCompletionStream(prompt: any, model: any, context?: any): AsyncGenerator<import(".pnpm/@huggingface+tasks@0.19.48/node_modules/@huggingface/tasks").ChatCompletionStreamOutput, void, unknown>;
-    getModels(): import("./HuggingFaceModel.js").default[];
-    getRealModel(model?: ChatModel): string | false;
+    getModels(): Promise<import("./HuggingFaceModel.js").default[]>;
+    getRealModel(model?: ChatModel): string;
     getTokens(content: any): Promise<number[]>;
     requireClient(): void;
     /**
-     * Gets model by name and context.options.provider
-     * @param {string|ChatModel} model - Model name
-     * @returns {ChatModel|null} - Model instance
+     * @param {any} options
+     * @returns {AsyncGenerator<any, any, any>}
      */
-    getModel(model: string | ChatModel): ChatModel | null;
-    /**
-     * @param {StreamOptions} options
-     * @returns {Stream<ChatCompletionChunk> | ChatCompletion}
-     */
-    createChatCompletionStream(options: StreamOptions): Stream<ChatCompletionChunk> | ChatCompletion;
-    /**
-     * Stream function following OpenAIDriver algorithm
-     * @param {ChatMessage} chat
-     * @param {ChatModel} model
-     * @param {Function} onData callback for each delta chunk
-     * @returns {Response}
-     */
-    stream(chat: ChatMessage, model: ChatModel, onData?: Function): Response;
+    createChatCompletionStream(options: any): AsyncGenerator<any, any, any>;
     emitStreamStart(log: any): void;
     emitStreamData(log: any): void;
     emitStreamEnd(log: any): void;

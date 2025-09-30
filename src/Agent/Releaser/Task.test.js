@@ -47,7 +47,7 @@ describe('ReleaserTask', () => {
 		assert.strictEqual(task, originalTask)
 	})
 
-	it('should construct new instance from plain object', () => {
+	it('should construct plain object', () => {
 		const taskData = {
 			id: 'plain-task',
 			desc: 'Plain task content',

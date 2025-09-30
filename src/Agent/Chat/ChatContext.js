@@ -9,14 +9,18 @@ export default class ChatContext {
 	cwd = "."
 	/** @type {ChatModel} */
 	model = new ChatModel()
-	/** @type {ChatProvider} */
-	provider = new ChatProvider()
+	/** @type {ChatProvider | undefined} */
+	provider
 	/** @type {ChatAgent} */
-	agent = new ChatAgent()
+	agent
+	/** @type {ChatMessage} */
+	prompt = new ChatMessage()
 	/** @type {ChatMessage} */
 	chat = new ChatMessage()
 	/** @type {ChatResponse} */
 	prevResponse = new ChatResponse("")
+	/** @type {string} */
+	input = ""
 	/** @type {string} */
 	inputFile = "me.md"
 	/** @type {string} */
@@ -27,23 +31,8 @@ export default class ChatContext {
 	responseFile = "chat/response.md"
 	/** @type {string} */
 	streamFile = "chat/stream.md"
-	/** @type {boolean} */
-	cancelled = false
 
-	/**
-	 * @returns {number}
-	 */
-	get loopCount() {
-		return this.history.filter(m => m.role === ChatMessage.ROLES.assistant).length
-	}
-
-	get cancelled() {
-		return this.#cancelled
-	}
-
-	cancel() {
-		this.#cancelled = true
-	}
+	#cancelled = false
 
 	/**
 	 * @param {Object} input
@@ -60,12 +49,12 @@ export default class ChatContext {
 	 * @param {string} [input.streamFile]
 	 * @param {boolean} [input.cancelled]
 	 */
-	constructor(input = {}) {
+	constructor(input) {
 		const {
 			cwd = ".",
 			model = this.model,
-			provider = this.provider,
-			agent = this.agent,
+			provider,
+			agent,
 			chat = this.chat,
 			prevResponse = this.prevResponse,
 			inputFile = this.inputFile,
@@ -77,7 +66,7 @@ export default class ChatContext {
 		} = input
 		this.cwd = String(cwd)
 		this.model = ChatModel.from(model)
-		this.provider = ChatProvider.from(provider)
+		this.provider = provider ? ChatProvider.from(provider) : undefined
 		this.agent = ChatAgent.from(agent)
 		this.chat = ChatMessage.from(chat)
 		this.prevResponse = ChatResponse.from(prevResponse)
@@ -86,9 +75,26 @@ export default class ChatContext {
 		this.promptFile = String(promptFile)
 		this.responseFile = String(responseFile)
 		this.streamFile = String(streamFile)
-		this.cancelled = Boolean(cancelled)
+		this.#cancelled = Boolean(cancelled)
 	}
 
+	/** @returns {number} */
+	get loopCount() {
+		return this.history.filter(m => m.role === ChatMessage.ROLES.assistant).length
+	}
+
+	get cancelled() {
+		return this.#cancelled
+	}
+
+	cancel() {
+		this.#cancelled = true
+	}
+
+	/**
+	 * Sets prevResponse
+	 * @param {ChatResponse} response
+	 */
 	setResponse(response) {
 		this.chat.add(response)
 		this.prevResponse = response

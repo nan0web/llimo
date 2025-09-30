@@ -9,8 +9,8 @@ export default class ChatContext {
 	cwd = "."
 	/** @type {ChatModel} */
 	model = new ChatModel()
-	/** @type {ChatProvider} */
-	provider = new ChatProvider()
+	/** @type {ChatProvider | undefined} */
+	provider
 	/** @type {ChatAgent} */
 	agent
 	/** @type {ChatMessage} */
@@ -70,7 +70,7 @@ export default class ChatContext {
 		} = props
 		this.cwd = String(cwd)
 		this.model = ChatModel.from(model)
-		this.provider = ChatProvider.from(provider)
+		this.provider = provider ? ChatProvider.from(provider) : undefined
 		this.agent = ChatAgent.from(agent)
 		this.chat = ChatMessage.from(chat)
 		this.prompt = ChatMessage.from(prompt)

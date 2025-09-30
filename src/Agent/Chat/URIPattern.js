@@ -29,7 +29,7 @@ class URIPattern {
 	}
 
 	/**
-	 * Checks if the URI contains pattern matching characters (*, ?, [, {, !, +, @)
+	 * Checks if the URI contains pattern matching characters (*, ?, [, {, !, +, [at])
 	 * @returns {boolean} - True if URI is a pattern, false otherwise
 	 */
 	get isPattern() {
@@ -52,7 +52,7 @@ class URIPattern {
 		const str = String(this.uri)
 		if (!this.isPattern) return str
 		// Detect where magic starts (first * ? [ { etc.)
-		const match = str.match(/[*?\[\{!+@]/)
+		const match = str.match(/[*?\[{\}!+@]/)
 		if (match) {
 			return str.slice(0, match.index).trim()
 		}
